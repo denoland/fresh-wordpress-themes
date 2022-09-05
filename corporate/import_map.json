@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "$fresh/": "https://raw.githubusercontent.com/denoland/fresh/b12867a5823a338b318b14f1b6e399e61064dce9/",
+    "preact": "https://esm.sh/preact@10.10.0",
+    "preact/": "https://esm.sh/preact@10.10.0/",
+    "preact-render-to-string": "https://esm.sh/preact-render-to-string@5.2.1?external=preact",
+    "@twind": "./utils/twind.ts",
+    "twind": "https://esm.sh/twind@0.16.17",
+    "twind/": "https://esm.sh/twind@0.16.17/"
+  }
+}
