@@ -8,7 +8,7 @@ export default {
       },
       height: {
         md: "28rem",
-      }
+      },
     },
-  }
+  },
 };
