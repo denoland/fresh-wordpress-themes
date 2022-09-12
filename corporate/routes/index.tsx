@@ -1,5 +1,6 @@
 /** @jsx h */
 import { h } from "preact";
+import { css, tw } from "twind/css";
 import {
   WP_REST_API_Attachments,
   WP_REST_API_Post,
@@ -13,6 +14,12 @@ interface Post extends WP_REST_API_Post {
     alt: string;
   };
 }
+
+const postStyle = css`
+a {
+  text-decoration: underline;
+}
+`;
 
 export const handler: Handlers<Post[]> = {
   async GET(_req, ctx) {
@@ -87,7 +94,10 @@ export default function Home(props: PageProps<Post[]>) {
             <h2 class="text-2xl font-bold">
               {post.title.rendered}
             </h2>
-            <p dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+            <div
+              class={tw(postStyle)}
+              dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+            />
           </div>
 
           <div
