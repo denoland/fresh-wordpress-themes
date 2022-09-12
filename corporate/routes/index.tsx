@@ -1,14 +1,44 @@
 /** @jsx h */
 import { h } from "preact";
-import { WP_REST_API_Posts } from "https://raw.githubusercontent.com/johnbillion/wp-json-schemas/trunk/packages/wp-types/index.ts";
+import {
+  WP_REST_API_Attachments,
+  WP_REST_API_Post,
+  WP_REST_API_Posts,
+} from "https://raw.githubusercontent.com/johnbillion/wp-json-schemas/trunk/packages/wp-types/index.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 
-export const handler: Handlers<WP_REST_API_Posts> = {
+interface Post extends WP_REST_API_Post {
+  featuredImage?: {
+    href: string;
+    alt: string;
+  };
+}
+
+export const handler: Handlers<Post[]> = {
   async GET(_req, ctx) {
     try {
       const api = new URL("./wp/v2/pages", Deno.env.get("WP_REST_API")!);
       const json: WP_REST_API_Posts = await (await fetch(api)).json();
-      return ctx.render(json);
+      const media = new URL("./wp/v2/media", Deno.env.get("WP_REST_API")!);
+      const mediaJson: WP_REST_API_Attachments = await (await fetch(media))
+        .json();
+
+      const posts = json.map((post) => {
+        const featuredImage = mediaJson.find(
+          (media) => media.id === post.featured_media,
+        );
+        return {
+          ...post,
+          featuredImage: featuredImage
+            ? {
+              href: featuredImage.source_url,
+              alt: featuredImage.alt_text,
+            }
+            : undefined,
+        };
+      });
+
+      return ctx.render(posts);
     } catch (e) {
       console.error(e);
     }
@@ -16,7 +46,7 @@ export const handler: Handlers<WP_REST_API_Posts> = {
   },
 };
 
-export default function Home(props: PageProps<WP_REST_API_Posts>) {
+export default function Home(props: PageProps<Post[]>) {
   return (
     <div>
       <div
@@ -59,9 +89,11 @@ export default function Home(props: PageProps<WP_REST_API_Posts>) {
             </h2>
             <p dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
           </div>
+
           <div
             class="w-md h-md bg-cover"
-            style={`background-image: url(${post.image})`}
+            style={`background-image: url(${post.featuredImage?.href ?? ""})`}
+            title={post.featuredImage?.alt ?? ""}
           >
             <img
               src="flake.svg"
