@@ -1,38 +1,22 @@
 /** @jsx h */
 import { h } from "preact";
+import { WP_REST_API_Posts } from "https://raw.githubusercontent.com/johnbillion/wp-json-schemas/trunk/packages/wp-types/index.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
 
-interface Post {
-  title: string;
-  description: string;
-  image: string;
-}
+export const handler: Handlers<WP_REST_API_Posts> = {
+  async GET(_req, ctx) {
+    try {
+      const api = new URL("./wp/v2/pages", Deno.env.get("WP_REST_API")!);
+      const json: WP_REST_API_Posts = await (await fetch(api)).json();
+      return ctx.render(json);
+    } catch (e) {
+      console.error(e);
+    }
+    return new Response("API endpoint error", { status: 500 });
+  },
+};
 
-export default function Home() {
-  const posts: Post[] = [
-    {
-      title: "Post 1",
-      description:
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec
-      tellus et nulla tempor ornare. Ut at dolor ornare, pretium diam
-      sed, rutrum quam. Integer sit amet porttitor neque. Nullam in dui
-      volutpat, molestie tortor non, luctus lectus. Nunc pellentesque
-      aliquam mauris, ut mollis neque dapibus at. Phasellus consectetur
-      quam augue, sed volutpat quam ultricies quis.`,
-      image: "macaron2.webp",
-    },
-    {
-      title: "Post 2",
-      description:
-        `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec
-      tellus et nulla tempor ornare. Ut at dolor ornare, pretium diam
-      sed, rutrum quam. Integer sit amet porttitor neque. Nullam in dui
-      volutpat, molestie tortor non, luctus lectus. Nunc pellentesque
-      aliquam mauris, ut mollis neque dapibus at. Phasellus consectetur
-      quam augue, sed volutpat quam ultricies quis.`,
-      image: "macaron3.webp",
-    },
-  ];
-
+export default function Home(props: PageProps<WP_REST_API_Posts>) {
   return (
     <div>
       <div
@@ -67,16 +51,13 @@ export default function Home() {
         </div>
       </div>
 
-      {posts.map((post) => (
+      {props.data.map((post) => (
         <div class="mt-40 max-w-5xl mx-auto md:flex gap-16 odd:flex-row-reverse px-4">
           <div class="flex-1 space-y-8">
             <h2 class="text-2xl font-bold">
-              {post.title}
+              {post.title.rendered}
             </h2>
-
-            <p>
-              {post.description}
-            </p>
+            <p dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
           </div>
           <div
             class="w-md h-md bg-cover"
