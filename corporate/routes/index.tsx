@@ -2,10 +2,11 @@
 import { h } from "preact";
 import { css, tw } from "twind/css";
 import {
+  WP_API,
   WP_REST_API_Attachments,
   WP_REST_API_Post,
   WP_REST_API_Posts,
-} from "https://raw.githubusercontent.com/johnbillion/wp-json-schemas/trunk/packages/wp-types/index.ts";
+} from "utils/wp.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 
 interface Post extends WP_REST_API_Post {
@@ -24,9 +25,9 @@ a {
 export const handler: Handlers<Post[]> = {
   async GET(_req, ctx) {
     try {
-      const api = new URL("./wp/v2/pages", Deno.env.get("WP_REST_API")!);
+      const api = new URL("./wp/v2/pages", WP_API);
       const json: WP_REST_API_Posts = await (await fetch(api)).json();
-      const media = new URL("./wp/v2/media", Deno.env.get("WP_REST_API")!);
+      const media = new URL("./wp/v2/media", WP_API);
       const mediaJson: WP_REST_API_Attachments = await (await fetch(media))
         .json();
 
