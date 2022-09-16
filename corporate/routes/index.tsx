@@ -12,8 +12,12 @@ a {
   text-decoration: underline;
 }
 `;
+interface HomePageProps {
+  children: PostWithImage[];
+  menu: PostWithImage[];
+}
 
-export const handler: Handlers<PostWithImage[]> = {
+export const handler: Handlers<HomePageProps> = {
   async GET(_req, ctx) {
     try {
       const wp = new WordPressPages(WP_API!);
@@ -22,7 +26,7 @@ export const handler: Handlers<PostWithImage[]> = {
       const homePage = wp.getPage("home");
       const children = wp.getChildren(homePage?.id!);
 
-      return ctx.render(children);
+      return ctx.render({ children: children, menu: wp.getMenu() });
     } catch (e) {
       console.error(e);
     }
@@ -30,14 +34,14 @@ export const handler: Handlers<PostWithImage[]> = {
   },
 };
 
-export default function Home(props: PageProps<PostWithImage[]>) {
+export default function Home(props: PageProps<HomePageProps>) {
   return (
     <div>
       <div
         style="background-image: url(macaron.webp)"
         class="h-[48rem] bg-cover bg-center flex flex-col justify-between items-center"
       >
-        <Nav />
+        <Nav menu={props.data.menu} current="home" />
 
         <div class="bg-gray-900 text-white w-xl text-center rounded px-8 py-12 flex flex-col gap-8 -mb-8 items-center shadow-xl">
           <h2 class="text-3xl font-serif">
@@ -49,7 +53,7 @@ export default function Home(props: PageProps<PostWithImage[]>) {
         </div>
       </div>
 
-      {props.data.map((post) => (
+      {props.data.children.map((post) => (
         <div class="mt-40 max-w-5xl mx-auto md:flex gap-16 odd:flex-row-reverse px-4">
           <div class="flex-1 space-y-8">
             <h2 class="text-2xl font-bold">

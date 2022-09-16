@@ -1,7 +1,13 @@
 /** @jsx h */
 import { h } from "preact";
+import { PostWithImage } from "../data/posts.ts";
 
-export default function Nav() {
+interface NavProps {
+  menu?: PostWithImage[];
+  current?: string;
+}
+
+export default function Nav(props: NavProps) {
   return (
     <div class="bg-gradient-to-b from-gray-900 to-transparent w-full">
       {/* fade */}
@@ -16,12 +22,17 @@ export default function Nav() {
           <a href="https://twitter.com/deno_land">
             <img src="./tw.svg" alt="Twitter" />
           </a>
-          <li>
-            <a href="/menu">Menu</a>
-          </li>
-          <li>
-            <a href="/company">Company</a>
-          </li>
+
+          {props.menu?.filter((i) => i.slug !== "home").map((item) => (
+            <li>
+              <a
+                href={`/${item.slug}`}
+                class={`${props.current === item.slug ? "border-b-2" : ""}`}
+              >
+                {item.title.rendered}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </div>
