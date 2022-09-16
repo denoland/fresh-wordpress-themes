@@ -33,7 +33,12 @@ export const handler: Handlers<Post[]> = {
       const mediaJson: WP_REST_API_Attachments = await (await fetch(media))
         .json();
 
-      const posts = json.map((post) => {
+      const homePost = json.filter((post) => post.slug === "home")[0];
+      const homeChildrenPosts = json.filter(
+        (post) => post.parent === homePost.id,
+      );
+
+      const posts = homeChildrenPosts.map((post) => {
         const featuredImage = mediaJson.find(
           (media) => media.id === post.featured_media,
         );
