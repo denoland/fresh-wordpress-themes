@@ -8,6 +8,8 @@ import {
   WP_REST_API_Posts,
 } from "utils/wp.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
+import Nav from "../components/Nav.tsx";
+import Footer from "../components/Footer.tsx";
 
 interface Post extends WP_REST_API_Post {
   featuredImage?: {
@@ -61,23 +63,7 @@ export default function Home(props: PageProps<Post[]>) {
         style="background-image: url(macaron.webp)"
         class="h-[48rem] bg-cover bg-center flex flex-col justify-between items-center"
       >
-        <div class="bg-gradient-to-b from-gray-900 to-transparent w-full">
-          {/* fade */}
-          <nav class="flex max-w-7xl p-8 mx-auto">
-            <div class="flex-1">
-              <img src="/logo.svg" alt="Logo" />
-            </div>
-
-            <ul class="flex items-center uppercase text-white gap-4">
-              <a href="https://twitter.com/deno_land">
-                <img src="./tw.svg" alt="Twitter" />
-              </a>
-              <li>Menu</li>
-              <li>Company</li>
-              <li>Contact</li>
-            </ul>
-          </nav>
-        </div>
+        <Nav />
 
         <div class="bg-gray-900 text-white w-xl text-center rounded px-8 py-12 flex flex-col gap-8 -mb-8 items-center shadow-xl">
           <h2 class="text-3xl font-serif">
@@ -120,12 +106,7 @@ export default function Home(props: PageProps<Post[]>) {
         <img src="./line.svg" alt="" class="mx-auto mt-10" />
       </div>
 
-      <footer class="text-center px-8 py-8">
-        <img class="mx-auto w-32" src="/logo-dark.svg" alt="Logo" />
-        <p class="text-gray-600 text-sm">
-          Copyright © 2022 Sweets, co.
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }
