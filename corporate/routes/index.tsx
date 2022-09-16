@@ -1,22 +1,11 @@
 /** @jsx h */
 import { h } from "preact";
 import { css, tw } from "twind/css";
-import {
-  WP_API,
-  WP_REST_API_Attachments,
-  WP_REST_API_Post,
-  WP_REST_API_Posts,
-} from "utils/wp.ts";
+import { WP_API } from "utils/wp.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import Nav from "../components/Nav.tsx";
 import Footer from "../components/Footer.tsx";
-
-interface Post extends WP_REST_API_Post {
-  featuredImage?: {
-    href: string;
-    alt: string;
-  };
-}
+import { PostWithImage, WordPressPages } from "../data/posts.ts";
 
 const postStyle = css`
 a {
@@ -24,36 +13,16 @@ a {
 }
 `;
 
-export const handler: Handlers<Post[]> = {
+export const handler: Handlers<PostWithImage[]> = {
   async GET(_req, ctx) {
     try {
-      const api = new URL("./wp/v2/pages", WP_API);
-      const json: WP_REST_API_Posts = await (await fetch(api)).json();
-      const media = new URL("./wp/v2/media", WP_API);
-      const mediaJson: WP_REST_API_Attachments = await (await fetch(media))
-        .json();
+      const wp = new WordPressPages(WP_API!);
+      await wp.fetchData();
 
-      const homePost = json.filter((post) => post.slug === "home")[0];
-      const homeChildrenPosts = json.filter(
-        (post) => post.parent === homePost.id,
-      );
+      const homePage = wp.getPage("home");
+      const children = wp.getChildren(homePage?.id!);
 
-      const posts = homeChildrenPosts.map((post) => {
-        const featuredImage = mediaJson.find(
-          (media) => media.id === post.featured_media,
-        );
-        return {
-          ...post,
-          featuredImage: featuredImage
-            ? {
-              href: featuredImage.source_url,
-              alt: featuredImage.alt_text,
-            }
-            : undefined,
-        };
-      });
-
-      return ctx.render(posts);
+      return ctx.render(children);
     } catch (e) {
       console.error(e);
     }
@@ -61,7 +30,7 @@ export const handler: Handlers<Post[]> = {
   },
 };
 
-export default function Home(props: PageProps<Post[]>) {
+export default function Home(props: PageProps<PostWithImage[]>) {
   return (
     <div>
       <div

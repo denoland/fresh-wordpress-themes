@@ -3,26 +3,19 @@ import { h } from "preact";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import Nav from "../components/Nav.tsx";
 import Footer from "../components/Footer.tsx";
-import {
-  WP_API,
-  WP_REST_API_Attachments,
-  WP_REST_API_Post,
-  WP_REST_API_Posts,
-} from "utils/wp.ts";
+import { WP_API, WP_REST_API_Post } from "utils/wp.ts";
 import { css, tw } from "twind/css";
+import { WordPressPages } from "../data/posts.ts";
 
 export const handler: Handlers<WP_REST_API_Post> = {
   async GET(_req, ctx) {
     try {
-      const api = new URL("./wp/v2/pages", WP_API);
-      const json: WP_REST_API_Posts = await (await fetch(api)).json();
-      const media = new URL("./wp/v2/media", WP_API);
-      const mediaJson: WP_REST_API_Attachments = await (await fetch(media))
-        .json();
+      const wp = new WordPressPages(WP_API!);
+      await wp.fetchData();
 
-      const post = json.filter((post) => post.slug === ctx.params.name)[0];
+      const page = wp.getPage(ctx.params.name);
 
-      return ctx.render(post);
+      return ctx.render(page);
     } catch (e) {
       console.error(e);
     }
