@@ -17,7 +17,7 @@ services:
       - 3306
       - 33060
   wordpress:
-    image: wordpress:latest
+    dockerfile: ./Dockerfile
     ports:
       - 80:80
     restart: always
