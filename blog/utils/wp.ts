@@ -18,13 +18,15 @@ export async function getSiteName() {
 }
 
 /** Gets all pages */
-export async function getPages() {
-  return await callApi<WP.WP_REST_API_Posts>("/wp/v2/pages?per_page=100&orderby=menu_order&order=asc");
+export function getPages() {
+  return callApi<WP.WP_REST_API_Posts>(
+    "/wp/v2/pages?per_page=100&orderby=menu_order&order=asc",
+  );
 }
 
-export async function getPosts(page?: number) {
-  const path = "/wp/v2/posts";
-  return await callApi<WP.WP_REST_API_Posts>(
-    page ? `${path}?page=${page}` : path,
+/** Gets the posts of the given page */
+export function getPosts(page = 1, perPage = 10) {
+  return callApi<WP.WP_REST_API_Posts>(
+    `/wp/v2/posts?per_page=${perPage}&page=${page}`,
   );
 }
