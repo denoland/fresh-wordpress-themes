@@ -64,7 +64,7 @@ export default function Index({ data }: PageProps<Data>) {
         </div>
       </main>
       <footer class="py-4 flex items-center justify-center">
-        <p>Powered by Fresh and WordPress</p>
+        <p>Proudly powered by Fresh and WordPress</p>
       </footer>
     </div>
   );
