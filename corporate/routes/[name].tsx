@@ -32,6 +32,35 @@ const postStyle = css`
 a {
   text-decoration: underline;
 }
+.wp-block-columns {
+  display: flex;
+  margin-bottom: 1.75em;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+@media (min-width: 782px) {
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column {
+      flex-basis: 0;
+      flex-grow: 1;
+  }
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:first-child) {
+    margin-left: 2em;
+  }
+}
+.wp-block-column {
+    flex-grow: 1;
+    min-width: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+.wp-block-image {
+  margin: 0 0 1em;
+}
+.wp-block-image img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: bottom;
+}
 `;
 export default function SinglePage(props: PageProps<SinglePageProps>) {
   return (
@@ -42,7 +71,7 @@ export default function SinglePage(props: PageProps<SinglePageProps>) {
 
       <div class="mt-40 max-w-5xl mx-auto md:flex gap-16 odd:flex-row-reverse px-4">
         <div
-          class={tw(postStyle)}
+          class={tw(postStyle) + " space-y-8"}
           dangerouslySetInnerHTML={{ __html: props.data.post.content.rendered }}
         />
       </div>
@@ -53,3 +82,5 @@ export default function SinglePage(props: PageProps<SinglePageProps>) {
     </div>
   );
 }
+
+// wp-block-columns
