@@ -40,11 +40,25 @@ export default function Index({ data }: PageProps<Data>) {
       <main>
         <div class="p-4 mx-auto max-w-screen-lg">
           {posts.map((post) => (
-            <div class=" pt-4 pb-40">
-              <h2 class="font-extralight underline text-6xl py-4">
+            <div class="pt-20 pb-32">
+              <h2
+                class="font-thin underline text-6xl"
+                style="text-decoration-thickness: 1px; text-underline-offset: 5px;"
+              >
                 {post.title.rendered}
               </h2>
-              <p>{post.date}</p>
+              <div
+                class="mt-10 text-lg font-light"
+                dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+              />
+              <p
+                class="mt-10 underline italic"
+                style="text-decoration-thickness: 1px; text-underline-offset: 3px;"
+              >
+                {new Date(post.date).toLocaleString("en", {
+                  dateStyle: "long",
+                })}
+              </p>
             </div>
           ))}
         </div>
