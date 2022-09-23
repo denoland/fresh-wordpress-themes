@@ -27,7 +27,7 @@ export default function Index({ data }: PageProps<Data>) {
           <a href="/" class="italic underline">{siteName}</a>
           <img src="cover.png" alt="Deno chasing a butterfly" />
           <ul class="mx-4 mt-4 flex gap-6 flex-wrap justify-end">
-          {pages.filter((page) => page.parent === 0).map((
+            {pages.filter((page) => page.parent === 0).map((
               page,
             ) => (
               <li class="hover:underline">
@@ -39,7 +39,7 @@ export default function Index({ data }: PageProps<Data>) {
       </header>
       <main>
         <div class="p-4 mx-auto max-w-screen-lg">
-        {posts.map((post) => (
+          {posts.map((post) => (
             <div class="pt-20 pb-32">
               <h2
                 class="font-thin underline text-6xl"
