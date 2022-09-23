@@ -1,5 +1,4 @@
-import Counter from "../islands/Counter.tsx";
-import { Handlers, PageProps } from "$fresh/server.ts";
+import { Handlers, PageProps } from "fresh/server.ts";
 import { getPages, getPosts, getSiteName, WP } from "utils/wp.ts";
 
 type Data = {
@@ -9,7 +8,7 @@ type Data = {
 };
 
 export const handler: Handlers<Data> = {
-  async GET(req, ctx) {
+  async GET(_req, ctx) {
     const [pages, siteName, posts] = await Promise.all([
       getPages(),
       getSiteName(),
@@ -24,9 +23,9 @@ export default function Index({ data }: PageProps<Data>) {
   return (
     <div>
       <header class="w-full text-white bg-black text-lg font-light">
-        <div class="p-4 mx-auto max-w-screen-lg pb-80">
-          <a href="/" class="italic underline hover:opacity-70">{siteName}</a>
-          <ul class="mx-4 mt-4 flex gap-4 flex-wrap justify-end">
+        <div class="p-4 mx-auto max-w-screen-lg pt-20 pb-80">
+          <a href="/" class="italic underline">{siteName}</a>
+          <ul class="mx-4 mt-4 flex gap-6 flex-wrap justify-end">
             {pages.filter((page) => page.parent === 0).map((
               page,
             ) => (
@@ -63,8 +62,22 @@ export default function Index({ data }: PageProps<Data>) {
           ))}
         </div>
       </main>
-      <footer class="py-4 flex items-center justify-center">
-        <p>Proudly powered by Fresh and WordPress</p>
+      <footer class="py-10 text-lg">
+        <div class="max-w-screen-lg mx-auto flex items-center justify-between">
+          <p>
+            <a class="underline" href="/">{siteName}</a>
+          </p>
+          <p>
+            Proudly powered by{" "}
+            <a class="underline" href="https://fresh.deno.dev" target="_blank">
+              Fresh
+            </a>{" "}
+            and{" "}
+            <a class="underline" href="https://wordpress.org" target="_blank">
+              WordPress
+            </a>
+          </p>
+        </div>
       </footer>
     </div>
   );

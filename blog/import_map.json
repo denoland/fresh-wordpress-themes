@@ -1,6 +1,6 @@
 {
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.1.1/",
+    "fresh/": "https://deno.land/x/fresh@1.1.1/",
     "std/": "https://deno.land/std@0.156.0/",
     "preact": "https://esm.sh/preact@10.11.0",
     "preact/": "https://esm.sh/preact@10.11.0/",
