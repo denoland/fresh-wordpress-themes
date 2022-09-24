@@ -65,7 +65,12 @@ a {
 export default function SinglePage(props: PageProps<SinglePageProps>) {
   return (
     <div>
-      <div class="bg-black">
+      <div
+        style={`background-image: url(${
+          props.data.post.featuredImage.href ?? ""
+        })`}
+        class="h-[16rem] bg-cover bg-center flex flex-col justify-between items-center"
+      >
         <Nav menu={props.data.menu} current={props.params.name} />
       </div>
 
