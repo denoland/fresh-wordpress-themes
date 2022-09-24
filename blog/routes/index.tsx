@@ -23,7 +23,7 @@ export default function Index({ data }: PageProps<Data>) {
   return (
     <div>
       <header class="w-full text-white bg-black text-lg font-light">
-        <div class="p-4 mx-auto max-w-screen-lg pt-20 pb-80">
+        <div class="p-4 mx-auto max-w-screen-lg pt-20">
           <a href="/" class="italic underline">{siteName}</a>
           <ul class="mx-4 mt-4 flex gap-6 flex-wrap justify-end">
             {pages.filter((page) => page.parent === 0).map((
@@ -34,6 +34,7 @@ export default function Index({ data }: PageProps<Data>) {
               </li>
             ))}
           </ul>
+          <img src="cover.png" alt="Deno chasing a butterfly" />
         </div>
       </header>
       <main>
