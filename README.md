@@ -1,6 +1,6 @@
 # Blog Example
 
-https://blog.wp.deno.com/
+https://wp-blog-example.deno.dev/
 
 # Corporate Example
 
