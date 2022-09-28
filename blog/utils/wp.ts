@@ -27,6 +27,6 @@ export function getPages() {
 /** Gets the posts of the given page */
 export function getPosts(page = 1, perPage = 10) {
   return callApi<WP.WP_REST_API_Posts>(
-    `/wp/v2/posts?per_page=${perPage}&page=${page}`,
+    `/wp/v2/posts?per_page=${perPage}&page=${page}&_embed=wp:featuredmedia`,
   );
 }

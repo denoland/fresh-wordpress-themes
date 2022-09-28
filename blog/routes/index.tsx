@@ -47,6 +47,7 @@ export default function Index({ data }: PageProps<Data>) {
               >
                 {post.title.rendered}
               </h2>
+              <FeaturedImage class="mt-10" post={post} />
               <div
                 class="mt-10 text-lg font-light"
                 dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
@@ -82,4 +83,13 @@ export default function Index({ data }: PageProps<Data>) {
       </footer>
     </div>
   );
+}
+
+function FeaturedImage(props: { class?: string, post: WP.WP_REST_API_Post }) {
+  // deno-lint-ignore no-explicit-any
+  const source = (props.post._embedded?.["wp:featuredmedia"] as any)?.[0]?.source_url;
+  if (!source) {
+    return null;
+  }
+  return <div class={props.class}><img src={source} /></div>;
 }
