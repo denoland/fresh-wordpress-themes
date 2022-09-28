@@ -18,10 +18,21 @@ export const handler: Handlers<Data> = {
   },
 };
 
+const globalStyle = `
+a {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a:hover {
+  text-decoration-style: dashed;
+}
+`
+
 export default function Index({ data }: PageProps<Data>) {
   const { pages, siteName, posts } = data;
   return (
     <div>
+      <style dangerouslySetInnerHTML={{__html: globalStyle}} />
       <header class="w-full text-white bg-black text-lg font-light">
         <div class="p-4 mx-auto max-w-screen-lg pt-20">
           <a href="/" class="italic underline">{siteName}</a>
@@ -29,8 +40,8 @@ export default function Index({ data }: PageProps<Data>) {
             {pages.filter((page) => page.parent === 0).map((
               page,
             ) => (
-              <li class="hover:underline">
-                <a href={new URL(page.link).pathname}>{page.title.rendered}</a>
+              <li>
+                <a class="hover:underline" href={new URL(page.link).pathname}>{page.title.rendered}</a>
               </li>
             ))}
           </ul>
@@ -67,7 +78,7 @@ export default function Index({ data }: PageProps<Data>) {
       <footer class="py-10 text-lg">
         <div class="max-w-screen-lg mx-auto flex items-center justify-between">
           <p>
-            <a class="underline" href="/">{siteName}</a>
+            <a class="underline italic" href="/">{siteName}</a>
           </p>
           <p>
             Proudly powered by{" "}
