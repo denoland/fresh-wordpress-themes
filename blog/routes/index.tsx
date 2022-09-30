@@ -35,7 +35,10 @@ export default function Index({ data }: PageProps<Data>) {
               page,
             ) => (
               <li>
-                <a class="hover:underline" href={new URL(page.link).pathname}>
+                <a
+                  class="no-underline hover:underline"
+                  href={new URL(page.link).pathname}
+                >
                   {page.title.rendered}
                 </a>
               </li>
@@ -57,26 +60,24 @@ export default function Index({ data }: PageProps<Data>) {
 function Post({ post }: { post: WP.WP_REST_API_Post }) {
   return (
     <div class="pt-20 pb-32">
-    <h2
-      class="font-thin underline text-6xl"
-      style="text-decoration-thickness: 1px; text-underline-offset: 5px;"
-    >
-      {post.title.rendered}
-    </h2>
-    <FeaturedImage class="mt-10" post={post} />
-    <div
-      class="mt-10 text-lg font-light"
-      dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-    />
-    <p
-      class="mt-10 underline italic"
-      style="text-decoration-thickness: 1px; text-underline-offset: 3px;"
-    >
-      {new Date(post.date).toLocaleString("en", {
-        dateStyle: "long",
-      })}
-    </p>
-  </div>
+      <h2 class="font-thin text-6xl">
+        <a href={`/post/${post.slug}`} style="text-underline-offset: 6px;">
+          {post.title.rendered}
+        </a>
+      </h2>
+      <FeaturedImage class="mt-10" post={post} />
+      <div
+        class="mt-10 text-lg font-light"
+        dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+      />
+      <p class="mt-10 italic">
+        <a href={`/post/${post.slug}`}>
+          {new Date(post.date).toLocaleString("en", {
+            dateStyle: "long",
+          })}
+        </a>
+      </p>
+    </div>
   );
 }
 

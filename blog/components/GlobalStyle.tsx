@@ -2,6 +2,7 @@
 
 const globalStyle = `
 a {
+  text-decoration-line: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
