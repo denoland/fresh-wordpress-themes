@@ -2,16 +2,17 @@
 
 import { Handlers, PageProps } from "fresh/server.ts";
 import { getPages, getPosts, getSiteName, WP } from "utils/wp.ts";
+import { Header } from "components/Header.tsx";
 import { Footer } from "components/Footer.tsx";
 import { GlobalStyle } from "components/GlobalStyle.tsx";
 
-type Data = {
+type PageData = {
   pages: WP.WP_REST_API_Posts;
   posts: WP.WP_REST_API_Posts;
   siteName: string;
 };
 
-export const handler: Handlers<Data> = {
+export const handler: Handlers<PageData> = {
   async GET(_req, ctx) {
     const [pages, siteName, posts] = await Promise.all([
       getPages(),
@@ -22,35 +23,16 @@ export const handler: Handlers<Data> = {
   },
 };
 
-export default function Index({ data }: PageProps<Data>) {
+export default function Index({ data }: PageProps<PageData>) {
   const { pages, siteName, posts } = data;
   return (
     <div>
       <GlobalStyle />
-      <header class="w-full text-white bg-black text-lg font-light">
-        <div class="p-4 mx-auto max-w-screen-lg pt-20">
-          <a href="/" class="italic underline">{siteName}</a>
-          <ul class="mx-4 mt-4 flex gap-6 flex-wrap justify-end">
-            {pages.filter((page) => page.parent === 0).map((
-              page,
-            ) => (
-              <li>
-                <a
-                  class="no-underline hover:underline"
-                  href={new URL(page.link).pathname}
-                >
-                  {page.title.rendered}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <img src="cover.png" alt="Deno chasing a butterfly" />
-        </div>
-      </header>
-      <main>
-        <div class="p-4 mx-auto max-w-screen-lg">
-          {posts.map((post) => <Post post={post} />)}
-        </div>
+      <Header siteName={siteName} pages={pages} style="dark">
+        <img class="my-10" src="cover.png" alt="Deno chasing a butterfly" />
+      </Header>
+      <main class="p-4 mx-auto max-w-screen-lg">
+        {posts.map((post) => <Post post={post} />)}
       </main>
       <Footer siteName={siteName} />
     </div>
