@@ -1,5 +1,8 @@
+// Copyright 2022 the Deno authors. All rights reserved. MIT license.
+
 import { Handlers, PageProps } from "fresh/server.ts";
 import { getPages, getPosts, getSiteName, WP } from "utils/wp.ts";
+import { Footer } from "components/Footer.tsx"
 
 type Data = {
   pages: WP.WP_REST_API_Posts;
@@ -26,13 +29,13 @@ a {
 a:hover {
   text-decoration-style: dashed;
 }
-`
+`;
 
 export default function Index({ data }: PageProps<Data>) {
   const { pages, siteName, posts } = data;
   return (
     <div>
-      <style dangerouslySetInnerHTML={{__html: globalStyle}} />
+      <style dangerouslySetInnerHTML={{ __html: globalStyle }} />
       <header class="w-full text-white bg-black text-lg font-light">
         <div class="p-4 mx-auto max-w-screen-lg pt-20">
           <a href="/" class="italic underline">{siteName}</a>
@@ -41,7 +44,9 @@ export default function Index({ data }: PageProps<Data>) {
               page,
             ) => (
               <li>
-                <a class="hover:underline" href={new URL(page.link).pathname}>{page.title.rendered}</a>
+                <a class="hover:underline" href={new URL(page.link).pathname}>
+                  {page.title.rendered}
+                </a>
               </li>
             ))}
           </ul>
@@ -75,32 +80,21 @@ export default function Index({ data }: PageProps<Data>) {
           ))}
         </div>
       </main>
-      <footer class="py-10 text-lg">
-        <div class="max-w-screen-lg mx-auto flex items-center justify-between">
-          <p>
-            <a class="underline italic" href="/">{siteName}</a>
-          </p>
-          <p>
-            Proudly powered by{" "}
-            <a class="underline" href="https://fresh.deno.dev" target="_blank">
-              Fresh
-            </a>{" "}
-            and{" "}
-            <a class="underline" href="https://wordpress.org" target="_blank">
-              WordPress
-            </a>
-          </p>
-        </div>
-      </footer>
+      <Footer siteName={siteName} />
     </div>
   );
 }
 
-function FeaturedImage(props: { class?: string, post: WP.WP_REST_API_Post }) {
+function FeaturedImage(props: { class?: string; post: WP.WP_REST_API_Post }) {
   // deno-lint-ignore no-explicit-any
-  const source = (props.post._embedded?.["wp:featuredmedia"] as any)?.[0]?.source_url;
+  const source = (props.post._embedded?.["wp:featuredmedia"] as any)?.[0]
+    ?.source_url;
   if (!source) {
     return null;
   }
-  return <div class={props.class}><img src={source} /></div>;
+  return (
+    <div class={props.class}>
+      <img src={source} />
+    </div>
+  );
 }
