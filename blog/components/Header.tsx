@@ -1,12 +1,12 @@
 // Copyright 2022 the Deno authors. All rights reserved. MIT license.
 
-import { WP } from "utils/wp.ts";
+import { WpPost } from "utils/wp.ts";
 import cx from "utils/cx.ts";
 
 type Props = {
   style: "dark" | "light";
   siteName: string;
-  pages: WP.WP_REST_API_Posts;
+  pages: WpPost[];
   children?: unknown;
 };
 
@@ -22,7 +22,7 @@ export function Header(
     >
       <div class="p-4 mx-auto max-w-screen-lg pt-20">
         <a href="/" class="italic underline">{siteName}</a>
-        <ul class="mx-4 mt-4 flex gap-6 flex-wrap justify-end">
+        <ul class="mx-4 mt-6 flex gap-6 flex-wrap justify-end">
           {pages.filter((page) => page.parent === 0).map((
             page,
           ) => (

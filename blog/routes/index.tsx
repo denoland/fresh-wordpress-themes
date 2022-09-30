@@ -1,14 +1,14 @@
 // Copyright 2022 the Deno authors. All rights reserved. MIT license.
 
 import { Handlers, PageProps } from "fresh/server.ts";
-import { getPages, getPosts, getSiteName, WP } from "utils/wp.ts";
+import { getPages, getPosts, getSiteName, WpPost } from "utils/wp.ts";
 import { Header } from "components/Header.tsx";
 import { Footer } from "components/Footer.tsx";
 import { GlobalStyle } from "components/GlobalStyle.tsx";
 
 type PageData = {
-  pages: WP.WP_REST_API_Posts;
-  posts: WP.WP_REST_API_Posts;
+  pages: WpPost[];
+  posts: WpPost[];
   siteName: string;
 };
 
@@ -39,7 +39,7 @@ export default function Index({ data }: PageProps<PageData>) {
   );
 }
 
-function Post({ post }: { post: WP.WP_REST_API_Post }) {
+function Post({ post }: { post: WpPost }) {
   return (
     <div class="pt-20 pb-32">
       <h2 class="font-thin text-6xl">
@@ -63,7 +63,7 @@ function Post({ post }: { post: WP.WP_REST_API_Post }) {
   );
 }
 
-function FeaturedImage(props: { class?: string; post: WP.WP_REST_API_Post }) {
+function FeaturedImage(props: { class?: string; post: WpPost }) {
   // deno-lint-ignore no-explicit-any
   const source = (props.post._embedded?.["wp:featuredmedia"] as any)?.[0]
     ?.source_url;
