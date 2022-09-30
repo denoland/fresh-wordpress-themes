@@ -43,7 +43,7 @@ function Post({ post }: { post: WpPost }) {
   return (
     <div class="pt-20 pb-32">
       <h2 class="font-thin text-6xl">
-        <a href={`/post/${post.slug}`} style="text-underline-offset: 6px;">
+        <a href={`/posts/${post.slug}`} style="text-underline-offset: 6px;">
           {post.title.rendered}
         </a>
       </h2>
@@ -53,7 +53,7 @@ function Post({ post }: { post: WpPost }) {
         dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
       />
       <p class="mt-10 italic">
-        <a href={`/post/${post.slug}`}>
+        <a href={`/posts/${post.slug}`}>
           {new Date(post.date).toLocaleString("en", {
             dateStyle: "long",
           })}

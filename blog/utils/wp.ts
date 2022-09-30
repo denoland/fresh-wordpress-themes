@@ -45,3 +45,11 @@ export async function getPostBySlug(slug: string) {
   );
   return posts[0];
 }
+
+/** Gets the post by the give slug */
+export async function getPageBySlug(slug: string) {
+  const posts = await callApi<WpPost[]>(
+    `/wp/v2/pages?slug=${slug}&_embed=author,wp:term`,
+  );
+  return posts[0];
+}
