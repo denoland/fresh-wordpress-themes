@@ -14,21 +14,40 @@ export type WpCategory = WP.WP_REST_API_Category;
 export type WpTag = WP.WP_REST_API_Tag;
 export type WpUser = WP.WP_REST_API_User;
 
-export async function callApi<T = unknown>(path: `/${string}`) {
+export type WpResponseMetadata = {
+  total: number | null;
+  totalPages: number | null;
+};
+
+function toNum(s: string | null): number | null {
+  return typeof s === "string" ? +s : s;
+}
+
+function responseMetadataFromHeaders(headers: Headers): WpResponseMetadata {
+  return {
+    total: toNum(headers.get("x-wp-total")),
+    totalPages: toNum(headers.get("x-wp-totalpages")),
+  };
+}
+
+export async function callApi<T = unknown>(
+  path: `/${string}`,
+): Promise<[T, WpResponseMetadata]> {
   const resp = await fetch(WP_API + path);
-  return await resp.json() as T;
+  return [await resp.json() as T, responseMetadataFromHeaders(resp.headers)];
 }
 
 export async function getSiteName() {
-  const { name } = await callApi<{ name: string }>("/?fields=name");
+  const [{ name }] = await callApi<{ name: string }>("/?fields=name");
   return name;
 }
 
 /** Gets all pages */
-export function getPages() {
-  return callApi<WpPost[]>(
+export async function getPages() {
+  const [pages] = await callApi<WpPost[]>(
     "/wp/v2/pages?per_page=100&orderby=menu_order&order=asc",
   );
+  return pages;
 }
 
 /** Gets the posts of the given page */
@@ -40,7 +59,7 @@ export function getPosts(page = 1, perPage = 10) {
 
 /** Gets the post by the give slug */
 export async function getPostBySlug(slug: string) {
-  const posts = await callApi<WpPost[]>(
+  const [posts] = await callApi<WpPost[]>(
     `/wp/v2/posts?slug=${slug}&_embed=author,wp:term`,
   );
   return posts[0];
@@ -48,7 +67,7 @@ export async function getPostBySlug(slug: string) {
 
 /** Gets the post by the give slug */
 export async function getPageBySlug(slug: string) {
-  const posts = await callApi<WpPost[]>(
+  const [posts] = await callApi<WpPost[]>(
     `/wp/v2/pages?slug=${slug}&_embed=author,wp:term`,
   );
   return posts[0];

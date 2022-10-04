@@ -1,6 +1,5 @@
 // Copyright 2022 the Deno authors. All rights reserved. MIT license.
 import { WpCategory, WpPost, WpTag, WpUser } from "utils/wp.ts";
-import Post from "../routes/[slug].tsx";
 
 export function PostMain({ post }: { post: WpPost }) {
   return (
