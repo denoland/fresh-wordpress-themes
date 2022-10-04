@@ -20,6 +20,9 @@ export const handler: Handlers<PageData> = {
       getSiteName(),
       getPostBySlug(ctx.params.slug),
     ]);
+    if (!post) {
+      return ctx.renderNotFound();
+    }
     return ctx.render({ pages, siteName, post });
   },
 };

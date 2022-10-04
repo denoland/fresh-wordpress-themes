@@ -43,7 +43,7 @@ export async function getSiteName() {
 }
 
 /** Gets all pages */
-export async function getPages() {
+export async function getPages(): Promise<WpPost[]> {
   const [pages] = await callApi<WpPost[]>(
     "/wp/v2/pages?per_page=100&orderby=menu_order&order=asc",
   );
@@ -51,28 +51,31 @@ export async function getPages() {
 }
 
 /** Gets the posts of the given page */
-export function getPosts(page = 1, perPage = 10) {
+export function getPosts(
+  page = 1,
+  perPage = 10,
+): Promise<[WpPost[], WpResponseMetadata]> {
   const path =
     `/wp/v2/posts?per_page=${perPage}&page=${page}&_embed=wp:featuredmedia`;
   return callApi<WpPost[]>(path);
 }
 
 /** Gets the sticky post if exists */
-export async function getStickyPost() {
+export async function getStickyPost(): Promise<WpPost | undefined> {
   const path = `/wp/v2/posts?sticky=1&_embed=wp:featuredmedia`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
 
 /** Gets the post by the give slug */
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug: string): Promise<WpPost | undefined> {
   const path = `/wp/v2/posts?slug=${slug}&_embed=author,wp:term`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
 
 /** Gets the post by the give slug */
-export async function getPageBySlug(slug: string) {
+export async function getPageBySlug(slug: string): Promise<WpPost | undefined> {
   const path = `/wp/v2/pages?slug=${slug}&_embed=author,wp:term`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];

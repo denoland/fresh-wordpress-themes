@@ -4,17 +4,19 @@
 
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/[slug].tsx";
-import * as $1 from "./routes/index.tsx";
-import * as $2 from "./routes/page/[page].tsx";
-import * as $3 from "./routes/posts/[slug].tsx";
+import * as $1 from "./routes/_404.tsx";
+import * as $2 from "./routes/index.tsx";
+import * as $3 from "./routes/page/[page].tsx";
+import * as $4 from "./routes/posts/[slug].tsx";
 import * as $$0 from "./islands/Counter.tsx";
 
 const manifest = {
   routes: {
     "./routes/[slug].tsx": $0,
-    "./routes/index.tsx": $1,
-    "./routes/page/[page].tsx": $2,
-    "./routes/posts/[slug].tsx": $3,
+    "./routes/_404.tsx": $1,
+    "./routes/index.tsx": $2,
+    "./routes/page/[page].tsx": $3,
+    "./routes/posts/[slug].tsx": $4,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

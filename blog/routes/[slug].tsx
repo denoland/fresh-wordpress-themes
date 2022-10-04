@@ -15,13 +15,14 @@ type PageData = {
 
 export const handler: Handlers<PageData> = {
   async GET(_req, ctx) {
-    console.log(ctx);
     const [pages, siteName, post] = await Promise.all([
       getPages(),
       getSiteName(),
       getPageBySlug(ctx.params.slug),
     ]);
-    console.log(post);
+    if (!post) {
+      return ctx.renderNotFound();
+    }
     return ctx.render({ pages, siteName, post });
   },
 };
