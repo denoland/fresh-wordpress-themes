@@ -10,6 +10,8 @@ import * as $3 from "./routes/page/[page].tsx";
 import * as $4 from "./routes/posts/[slug].tsx";
 import * as $5 from "./routes/posts/category/[category]/index.tsx";
 import * as $6 from "./routes/posts/category/[category]/page/[page].tsx";
+import * as $7 from "./routes/posts/tag/[tag]/index.tsx";
+import * as $8 from "./routes/posts/tag/[tag]/page/[page].tsx";
 import * as $$0 from "./islands/Counter.tsx";
 
 const manifest = {
@@ -21,6 +23,8 @@ const manifest = {
     "./routes/posts/[slug].tsx": $4,
     "./routes/posts/category/[category]/index.tsx": $5,
     "./routes/posts/category/[category]/page/[page].tsx": $6,
+    "./routes/posts/tag/[tag]/index.tsx": $7,
+    "./routes/posts/tag/[tag]/page/[page].tsx": $8,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

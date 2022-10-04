@@ -71,7 +71,7 @@ export function getPostsByCategoryId(
 }
 
 /** Gets the posts of the given page in the given tag */
-export function getPostsByTag(
+export function getPostsByTagId(
   page: number,
   tagId: number,
 ): Promise<[WpPost[], WpResponseMetadata]> {
