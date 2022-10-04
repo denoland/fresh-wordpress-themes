@@ -50,19 +50,52 @@ export async function getPages(): Promise<WpPost[]> {
   return pages;
 }
 
+const listQuery = "_embed=wp:featuredmedia";
+
 /** Gets the posts of the given page */
 export function getPosts(
-  page = 1,
-  perPage = 10,
+  page: number,
+): Promise<[WpPost[], WpResponseMetadata]> {
+  const path = `/wp/v2/posts?page=${page}&${listQuery}`;
+  return callApi<WpPost[]>(path);
+}
+
+/** Gets the posts of the given page in the given category */
+export function getPostsByCategoryId(
+  page: number,
+  categoryId: number,
 ): Promise<[WpPost[], WpResponseMetadata]> {
   const path =
-    `/wp/v2/posts?per_page=${perPage}&page=${page}&_embed=wp:featuredmedia`;
+    `/wp/v2/posts?page=${page}&categories=${categoryId}&${listQuery}`;
   return callApi<WpPost[]>(path);
+}
+
+/** Gets the posts of the given page in the given tag */
+export function getPostsByTag(
+  page: number,
+  tagId: number,
+): Promise<[WpPost[], WpResponseMetadata]> {
+  const path = `/wp/v2/posts?page=${page}&tags=${tagId}&${listQuery}`;
+  return callApi<WpPost[]>(path);
+}
+
+/** Gets the category of the given slug */
+export async function getCategoryBySlug(
+  slug: string,
+): Promise<WpCategory | undefined> {
+  const [categories] = await callApi<WpTag[]>(`/wp/v2/categories?slug=${slug}`);
+  return categories[0];
+}
+
+/** Gets the tag of the given slug */
+export async function getTagBySlug(slug: string): Promise<WpTag | undefined> {
+  const [tags] = await callApi<WpTag[]>(`/wp/v2/tags?slug=${slug}`);
+  return tags[0];
 }
 
 /** Gets the sticky post if exists */
 export async function getStickyPost(): Promise<WpPost | undefined> {
-  const path = `/wp/v2/posts?sticky=1&_embed=wp:featuredmedia`;
+  const path = `/wp/v2/posts?sticky=1&${listQuery}`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }

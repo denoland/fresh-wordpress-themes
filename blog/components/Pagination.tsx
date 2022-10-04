@@ -3,25 +3,37 @@
 import { WpResponseMetadata } from "utils/wp.ts";
 
 export function Pagination(
-  { currentPage, metadata }: {
+  { currentPage, metadata, pathPrefix = "" }: {
+    pathPrefix?: string;
     currentPage: number;
     metadata: WpResponseMetadata;
   },
 ) {
   const totalPages = metadata.totalPages!;
+  const prevPage = currentPage > 1 ? currentPage - 1 : null;
+  const nextPage = currentPage < totalPages ? currentPage + 1 : null;
 
   return (
     <div class="p-4 mx-auto max-w-screen-lg pb-60">
       <div class="flex justify-between">
-        {currentPage > 1 && (
+        {prevPage && (
           <span>
-            ← <a href="/">Previous page</a>
+            ←{" "}
+            <a
+              href={`${pathPrefix}/${prevPage === 1 ? "" : `page/${prevPage}`}`}
+            >
+              Previous page
+            </a>
           </span>
         )}
-        <Pages totalPages={totalPages} currentPage={currentPage} />
-        {currentPage < totalPages && (
+        <Pages
+          pathPrefix={pathPrefix}
+          totalPages={totalPages}
+          currentPage={currentPage}
+        />
+        {nextPage && (
           <span>
-            <a href="/">Next page page</a> →
+            <a href={`${pathPrefix}/page/${nextPage}`}>Next page</a> →
           </span>
         )}
       </div>
@@ -30,7 +42,8 @@ export function Pagination(
 }
 
 function Pages(
-  { totalPages: t, currentPage: c }: {
+  { totalPages: t, currentPage: c, pathPrefix }: {
+    pathPrefix: string;
     totalPages: number;
     currentPage: number;
   },
@@ -41,13 +54,13 @@ function Pages(
 
   return (
     <span class="flex gap-2">
-      {c > 1 && <a href="/">1</a>}
+      {c > 1 && <a href={`${pathPrefix}/`}>1</a>}
       {c > 3 && <span>...</span>}
-      {c > 2 && <a href={`/page/${c - 1}`}>{c - 1}</a>}
+      {c > 2 && <a href={`${pathPrefix}/page/${c - 1}`}>{c - 1}</a>}
       <span>{c}</span>
-      {c < t - 1 && <a href={`/page/${c + 1}`}>{c + 1}</a>}
+      {c < t - 1 && <a href={`${pathPrefix}/page/${c + 1}`}>{c + 1}</a>}
       {c < t - 2 && <span>...</span>}
-      {c < t && <a href={`/page/${t}`}>{t}</a>}
+      {c < t && <a href={`${pathPrefix}/page/${t}`}>{t}</a>}
     </span>
   );
 }

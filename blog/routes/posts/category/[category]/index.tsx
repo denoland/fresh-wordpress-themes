@@ -2,10 +2,11 @@
 
 import { Handlers, PageProps } from "fresh/server.ts";
 import {
+  getCategoryBySlug,
   getPages,
-  getPosts,
+  getPostsByCategoryId,
   getSiteName,
-  getStickyPost,
+  WpCategory,
   WpPost,
   WpResponseMetadata,
 } from "utils/wp.ts";
@@ -20,35 +21,52 @@ type PageData = {
   posts: WpPost[];
   siteName: string;
   metadata: WpResponseMetadata;
+  currentPage: number;
+  category: WpCategory;
 };
 
 export const handler: Handlers<PageData> = {
   async GET(_req, ctx) {
-    const [pages, siteName, [posts, metadata], stickyPost] = await Promise.all([
+    const categoryName = ctx.params.category;
+    const currentPage = 1;
+    const [pages, siteName, category] = await Promise.all([
       getPages(),
       getSiteName(),
-      getPosts(1),
-      getStickyPost(),
+      getCategoryBySlug(categoryName),
     ]);
-    if (stickyPost) {
-      posts.unshift(stickyPost);
+
+    if (!category) {
+      return ctx.renderNotFound();
     }
-    return ctx.render({ pages, siteName, posts, metadata });
+    const [posts, metadata] = await getPostsByCategoryId(
+      currentPage,
+      category.id,
+    );
+    return ctx.render({
+      pages,
+      siteName,
+      posts,
+      metadata,
+      currentPage,
+      category,
+    });
   },
 };
 
-export default function Index({ data }: PageProps<PageData>) {
-  const { pages, siteName, posts, metadata } = data;
+export default function CategoryIndex({ data }: PageProps<PageData>) {
+  const { pages, siteName, posts, metadata, currentPage, category } = data;
   return (
     <div>
       <GlobalStyle />
-      <Header siteName={siteName} pages={pages} style="dark">
-        <img class="my-10" src="cover.png" alt="Deno chasing a butterfly" />
-      </Header>
+      <Header siteName={siteName} pages={pages} style="light" />
       <main class="p-4 mx-auto max-w-screen-lg">
         {posts.map((post) => <Post post={post} />)}
       </main>
-      <Pagination currentPage={1} metadata={metadata} />
+      <Pagination
+        pathPrefix={`/posts/category/${category.slug}`}
+        currentPage={currentPage}
+        metadata={metadata}
+      />
       <Footer siteName={siteName} />
     </div>
   );
