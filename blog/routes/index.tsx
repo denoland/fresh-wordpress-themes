@@ -5,6 +5,7 @@ import {
   getPages,
   getPosts,
   getSiteName,
+  getStickyPost,
   WpPost,
   WpResponseMetadata,
 } from "utils/wp.ts";
@@ -23,11 +24,15 @@ type PageData = {
 
 export const handler: Handlers<PageData> = {
   async GET(_req, ctx) {
-    const [pages, siteName, [posts, metadata]] = await Promise.all([
+    const [pages, siteName, [posts, metadata], stickyPost] = await Promise.all([
       getPages(),
       getSiteName(),
       getPosts(),
+      getStickyPost(),
     ]);
+    if (stickyPost) {
+      posts.unshift(stickyPost);
+    }
     return ctx.render({ pages, siteName, posts, metadata });
   },
 };

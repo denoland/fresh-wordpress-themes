@@ -5,7 +5,7 @@ import { WpPost } from "utils/wp.ts";
 export function Post({ post }: { post: WpPost }) {
   return (
     <div class="pt-20 pb-32">
-      <h2 class="font-thin text-6xl">
+      <h2 class="font-thin text-6xl break-all">
         <a
           href={`/posts/${post.slug}`}
           style="text-underline-offset: 6px;"

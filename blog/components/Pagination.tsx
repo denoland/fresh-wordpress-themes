@@ -35,6 +35,10 @@ function Pages(
     currentPage: number;
   },
 ) {
+  if (t === 1) {
+    return null;
+  }
+
   return (
     <span class="flex gap-2">
       {c > 1 && <a href="/">1</a>}

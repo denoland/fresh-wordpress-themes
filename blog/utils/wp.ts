@@ -31,7 +31,7 @@ function responseMetadataFromHeaders(headers: Headers): WpResponseMetadata {
 }
 
 export async function callApi<T = unknown>(
-  path: `/${string}`,
+  path: string,
 ): Promise<[T, WpResponseMetadata]> {
   const resp = await fetch(WP_API + path);
   return [await resp.json() as T, responseMetadataFromHeaders(resp.headers)];
@@ -52,23 +52,28 @@ export async function getPages() {
 
 /** Gets the posts of the given page */
 export function getPosts(page = 1, perPage = 10) {
-  return callApi<WpPost[]>(
-    `/wp/v2/posts?per_page=${perPage}&page=${page}&_embed=wp:featuredmedia`,
-  );
+  const path =
+    `/wp/v2/posts?per_page=${perPage}&page=${page}&_embed=wp:featuredmedia`;
+  return callApi<WpPost[]>(path);
+}
+
+/** Gets the sticky post if exists */
+export async function getStickyPost() {
+  const path = `/wp/v2/posts?sticky=1&_embed=wp:featuredmedia`;
+  const [posts] = await callApi<WpPost[]>(path);
+  return posts[0];
 }
 
 /** Gets the post by the give slug */
 export async function getPostBySlug(slug: string) {
-  const [posts] = await callApi<WpPost[]>(
-    `/wp/v2/posts?slug=${slug}&_embed=author,wp:term`,
-  );
+  const path = `/wp/v2/posts?slug=${slug}&_embed=author,wp:term`;
+  const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
 
 /** Gets the post by the give slug */
 export async function getPageBySlug(slug: string) {
-  const [posts] = await callApi<WpPost[]>(
-    `/wp/v2/pages?slug=${slug}&_embed=author,wp:term`,
-  );
+  const path = `/wp/v2/pages?slug=${slug}&_embed=author,wp:term`;
+  const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
