@@ -11,5 +11,6 @@ import "std/dotenv/load.ts";
 
 import twindPlugin from "fresh/plugins/twind.ts";
 import twindConfig from "./twind.config.ts";
+import globalStylePlugin from "./plugins/globalStyle.ts";
 
-await start(manifest, { plugins: [twindPlugin(twindConfig)] });
+await start(manifest, { plugins: [twindPlugin(twindConfig), globalStylePlugin] });

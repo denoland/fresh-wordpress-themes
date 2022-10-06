@@ -21,7 +21,7 @@ export function Header(
       )}
     >
       <div class="p-4 mx-auto max-w-screen-lg pt-20">
-        <a href="/" class="italic underline">{siteName}</a>
+        <a href="/" class="italic">{siteName}</a>
         <ul class="mx-4 mt-6 flex gap-6 flex-wrap justify-end">
           {pages.filter((page) => page.parent === 0).map((
             page,

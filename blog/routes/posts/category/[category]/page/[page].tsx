@@ -12,7 +12,6 @@ import {
 } from "utils/wp.ts";
 import { Header } from "components/Header.tsx";
 import { Footer } from "components/Footer.tsx";
-import { GlobalStyle } from "components/GlobalStyle.tsx";
 import { Pagination } from "components/Pagination.tsx";
 import { Post } from "components/Post.tsx";
 
@@ -57,7 +56,6 @@ export default function CategoryListPage({ data }: PageProps<PageData>) {
   const { pages, siteName, posts, metadata, currentPage, category } = data;
   return (
     <div>
-      <GlobalStyle />
       <Header siteName={siteName} pages={pages} style="light" />
       <main class="p-4 mx-auto max-w-screen-lg">
         {posts.map((post) => <Post post={post} />)}

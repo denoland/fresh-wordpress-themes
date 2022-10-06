@@ -34,15 +34,15 @@ function PostFooter({ post }: { post: WpPost }) {
           dateStyle: "long",
         })}
       </span>
-      <span class="flex gap-1">
+      <span class="flex gap-2">
         {author.map((author) => <span>{author.name}</span>)}
       </span>
-      <span class="flex gap-1">
+      <span class="flex gap-2">
         {categories.map((category) => (
           <a href={`/posts/category/${category.slug}`}>{category.name}</a>
         ))}
       </span>
-      <span class="flex gap-1">
+      <span class="flex gap-2">
         {tags.map((tag) => <a href={`/posts/tag/${tag.slug}`}>{tag.name}</a>)}
       </span>
     </footer>
