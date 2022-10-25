@@ -2,10 +2,12 @@
 
 TBD: usage
 
-live demo: https://wp-blog-example.deno.dev/
+- source: [./blog](./blog)
+- live demo: https://wp-blog-example.deno.dev/
 
 # Corporate Example
 
 TBD: usage
 
-live demo: https://wp-macaron-shop.deno.dev/
+- source: [./corporate](./corporate)
+- live demo: https://wp-macaron-shop.deno.dev/
