@@ -1,7 +1,11 @@
 # Blog Example
 
-https://wp-blog-example.deno.dev/
+TBD: usage
+
+live demo: https://wp-blog-example.deno.dev/
 
 # Corporate Example
 
-https://wp-macaron-shop.deno.dev/
+TBD: usage
+
+live demo: https://wp-macaron-shop.deno.dev/
