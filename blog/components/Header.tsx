@@ -39,7 +39,11 @@ export function Header(
               {pageMap[page.id] && (
                 <div class="pt-4 absolute invisible group-hover:visible">
                   <ul class="border bg-white text-black">
-                    <ListItems level={1} pages={pageMap[page.id]} pageMap={pageMap} />
+                    <ListItems
+                      level={1}
+                      pages={pageMap[page.id]}
+                      pageMap={pageMap}
+                    />
                   </ul>
                 </div>
               )}
@@ -53,12 +57,21 @@ export function Header(
 }
 
 function ListItems(
-  { pages, pageMap, level }: { level: number, pages: WpPost[]; pageMap: Record<string, WpPost[]> },
+  { pages, pageMap, level }: {
+    level: number;
+    pages: WpPost[];
+    pageMap: Record<string, WpPost[]>;
+  },
 ) {
   return (
     <>
       {pages.map((page) => (
-        <li class={cx("pl-" + (level * 2 + 4), "pr-4 py-4 border-b-1 last:border-b-0")}>
+        <li
+          class={cx(
+            "pl-" + (level * 2 + 4),
+            "pr-4 py-4 border-b-1 last:border-b-0",
+          )}
+        >
           <a
             class="no-underline hover:underline"
             href={new URL(page.link).pathname}
@@ -66,7 +79,11 @@ function ListItems(
             {page.title.rendered}
           </a>
           {pageMap[page.id] && (
-            <ListItems level={level+1} pages={pageMap[page.id]} pageMap={pageMap} />
+            <ListItems
+              level={level + 1}
+              pages={pageMap[page.id]}
+              pageMap={pageMap}
+            />
           )}
         </li>
       ))}

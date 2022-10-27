@@ -1,6 +1,6 @@
 // Copyright 2022 the Deno authors. All rights reserved. MIT license.
 
-import { Handlers, PageProps } from "fresh/server.ts";
+import { Handlers, PageProps, RouteConfig } from "fresh/server.ts";
 import { getPageBySlug, getPages, getSiteName, WpPost } from "utils/wp.ts";
 import { Header } from "components/Header.tsx";
 import { Footer } from "components/Footer.tsx";
@@ -14,10 +14,11 @@ type PageData = {
 
 export const handler: Handlers<PageData> = {
   async GET(_req, ctx) {
+    const lastSlug = ctx.params.slug.split("/").at(-1)!;
     const [pages, siteName, post] = await Promise.all([
       getPages(),
       getSiteName(),
-      getPageBySlug(ctx.params.slug),
+      getPageBySlug(lastSlug),
     ]);
     if (!post) {
       return ctx.renderNotFound();
@@ -36,3 +37,7 @@ export default function Post({ data }: PageProps<PageData>) {
     </div>
   );
 }
+
+export const config: RouteConfig = {
+  routeOverride: "/:slug*",
+};
