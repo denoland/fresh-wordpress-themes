@@ -12,13 +12,13 @@ a:hover {
 `;
 
 const globalStyle: Plugin = {
-    name: "globalStyle",
-    render(ctx) {
-      const _res = ctx.render();
-      return {
-        styles: [ { cssText, id: "global-style" } ],
-      }
-    },
-}
+  name: "globalStyle",
+  render(ctx) {
+    const _res = ctx.render();
+    return {
+      styles: [{ cssText, id: "global-style" }],
+    };
+  },
+};
 
 export default globalStyle;

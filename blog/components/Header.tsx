@@ -2,6 +2,7 @@
 
 import { WpPost } from "utils/wp.ts";
 import cx from "utils/cx.ts";
+import { makePageMap } from "utils/page.ts";
 
 type Props = {
   style: "dark" | "light";
@@ -13,6 +14,7 @@ type Props = {
 export function Header(
   { siteName, pages, style, children }: Props,
 ) {
+  const pageMap = makePageMap(pages);
   return (
     <header
       class={cx(
@@ -29,6 +31,8 @@ export function Header(
             <li>
               <a
                 class="no-underline hover:underline"
+                // TODO(kt3k): show these in UI
+                title={JSON.stringify(pageMap[page.id])}
                 href={new URL(page.link).pathname}
               >
                 {page.title.rendered}
