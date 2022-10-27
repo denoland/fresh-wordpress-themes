@@ -28,20 +28,48 @@ export function Header(
           {pages.filter((page) => page.parent === 0).map((
             page,
           ) => (
-            <li>
+            <li class="group">
               <a
                 class="no-underline hover:underline"
-                // TODO(kt3k): show these in UI
-                title={JSON.stringify(pageMap[page.id])}
                 href={new URL(page.link).pathname}
               >
                 {page.title.rendered}
               </a>
+              {pageMap[page.id] && <span class="text-xs">{" "}▼</span>}
+              {pageMap[page.id] && (
+                <div class="pt-4 absolute invisible group-hover:visible">
+                  <ul class="border bg-white text-black">
+                    <ListItems level={1} pages={pageMap[page.id]} pageMap={pageMap} />
+                  </ul>
+                </div>
+              )}
             </li>
           ))}
         </ul>
         {children}
       </div>
     </header>
+  );
+}
+
+function ListItems(
+  { pages, pageMap, level }: { level: number, pages: WpPost[]; pageMap: Record<string, WpPost[]> },
+) {
+  return (
+    <>
+      {pages.map((page) => (
+        <li class={cx("pl-" + (level * 2 + 4), "pr-4 py-4 border-b-1 last:border-b-0")}>
+          <a
+            class="no-underline hover:underline"
+            href={new URL(page.link).pathname}
+          >
+            {page.title.rendered}
+          </a>
+          {pageMap[page.id] && (
+            <ListItems level={level+1} pages={pageMap[page.id]} pageMap={pageMap} />
+          )}
+        </li>
+      ))}
+    </>
   );
 }
