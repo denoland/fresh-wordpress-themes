@@ -68,8 +68,8 @@ function ListItems(
       {pages.map((page) => (
         <li
           class={cx(
-            "pl-" + (level * 2 + 4),
-            "pr-4 py-4 border-b-1 last:border-b-0",
+            "px-" + (level * 4 + 4),
+            "py-4 border-b-1 last:border-b-0",
           )}
         >
           <a
