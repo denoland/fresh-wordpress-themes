@@ -13,6 +13,7 @@ export type WpPost = WP.WP_REST_API_Post;
 export type WpCategory = WP.WP_REST_API_Category;
 export type WpTag = WP.WP_REST_API_Tag;
 export type WpUser = WP.WP_REST_API_User;
+export type WpComment = WP.WP_REST_API_Comment;
 
 export type WpResponseMetadata = {
   total: number | null;
@@ -102,7 +103,7 @@ export async function getStickyPost(): Promise<WpPost | undefined> {
 
 /** Gets the post by the give slug */
 export async function getPostBySlug(slug: string): Promise<WpPost | undefined> {
-  const path = `/wp/v2/posts?slug=${slug}&_embed=author,wp:term`;
+  const path = `/wp/v2/posts?slug=${slug}&_embed=author,wp:term,replies`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
