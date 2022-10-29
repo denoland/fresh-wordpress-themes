@@ -12,7 +12,7 @@ import * as $5 from "./routes/posts/category/[category]/index.tsx";
 import * as $6 from "./routes/posts/category/[category]/page/[page].tsx";
 import * as $7 from "./routes/posts/tag/[tag]/index.tsx";
 import * as $8 from "./routes/posts/tag/[tag]/page/[page].tsx";
-import * as $$0 from "./islands/Counter.tsx";
+import * as $$0 from "./islands/LeaveReplyForm.tsx";
 
 const manifest = {
   routes: {
@@ -27,7 +27,7 @@ const manifest = {
     "./routes/posts/tag/[tag]/page/[page].tsx": $8,
   },
   islands: {
-    "./islands/Counter.tsx": $$0,
+    "./islands/LeaveReplyForm.tsx": $$0,
   },
   baseUrl: import.meta.url,
   config,

@@ -1,5 +1,7 @@
 // Copyright 2022 the Deno authors. All rights reserved. MIT license.
+
 import { WpCategory, WpComment, WpPost, WpTag, WpUser } from "utils/wp.ts";
+import LeaveReplyForm from "../islands/LeaveReplyForm.tsx";
 
 export function PostMain({ post }: { post: WpPost }) {
   return (
@@ -17,8 +19,9 @@ export function PostMain({ post }: { post: WpPost }) {
             <hr class="mt-10 mb-20 border-black border-1" />
           </>
         )}
+        <PostReplies post={post} />
+        {post.type === "post" && <LeaveReplyForm />}
       </section>
-      <PostReplies post={post} />
     </main>
   );
 }
@@ -46,7 +49,7 @@ function PostReplies({ post }: { post: WpPost }) {
   });
 
   return (
-    <section class="mx-auto max-w-screen-sm text-lg">
+    <section>
       <h2 class="text-2xl">
         Responses to{" "}
         "<span dangerouslySetInnerHTML={{ __html: post.title.rendered }} />"
