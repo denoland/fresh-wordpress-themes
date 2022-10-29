@@ -13,7 +13,11 @@ export default function LeaveReplyForm({ post }: { post: number }) {
   const leaveReply = async () => {
     setLoading(true);
     try {
-      fetch("");
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
+      alert("TODO(kt3k): not implemented");
+      location.reload();
     } finally {
       setLoading(false);
     }
