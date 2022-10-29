@@ -20,13 +20,17 @@ export function PostMain({ post }: { post: WpPost }) {
           </>
         )}
         <PostReplies post={post} />
-        {post.type === "post" && <LeaveReplyForm />}
+        {post.type === "post" && <LeaveReplyForm post={post.id} />}
       </section>
     </main>
   );
 }
 
 function PostReplies({ post }: { post: WpPost }) {
+  if (!post._embedded?.replies) {
+    return null;
+  }
+
   // deno-lint-ignore no-explicit-any
   const replies_ = (post._embedded?.replies as any)[0] as WpComment[];
 
