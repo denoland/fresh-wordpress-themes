@@ -1,6 +1,7 @@
 // Copyright 2022 the Deno authors. All rights reserved. MIT license.
 
 import { useState } from "preact/hooks";
+import Spinner from "components/icons/Spinner.tsx";
 import cx from "utils/cx.ts";
 
 export default function LeaveReplyForm({ post }: { post: number }) {
@@ -8,7 +9,7 @@ export default function LeaveReplyForm({ post }: { post: number }) {
   const [email, setEmail] = useState("");
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
-  const disabled = !name || !email || !reply;
+  const disabled = !name || !email || !reply || loading;
 
   const leaveReply = async () => {
     setLoading(true);
@@ -21,7 +22,7 @@ export default function LeaveReplyForm({ post }: { post: number }) {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <section class="mt-20">
@@ -48,17 +49,18 @@ export default function LeaveReplyForm({ post }: { post: number }) {
           onInput={(e) => setEmail(e.currentTarget.value)}
         />
         <span class="text-sm">Your email address will not be published.</span>
-        <input
+        <button
           class={cx(
-            "self-start mt-6 p-4 bg-blue-700 text-white rounded",
+            "self-start mt-6 p-4 bg-blue-700 text-white rounded flex gap-2 items-center",
             disabled ? "cursor-not-allowed" : "cursor-pointer",
-            disabled && "opacity-30"
+            disabled && "opacity-30",
           )}
-          type="submit"
-          value="Post Comment"
           disabled={disabled}
           onClick={leaveReply}
-        />
+        >
+          {loading && <Spinner class="animate-spin" />}
+          <span>Post Comment</span>
+        </button>
       </div>
     </section>
   );
