@@ -20,7 +20,7 @@ export function PostMain({ post }: { post: WpPost }) {
           </>
         )}
         <PostReplies post={post} />
-        {post.type === "post" && <LeaveReplyForm post={post.id} />}
+        {post.comment_status === "open" && <LeaveReplyForm post={post.id} />}
       </section>
     </main>
   );
