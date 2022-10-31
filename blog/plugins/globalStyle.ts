@@ -32,22 +32,80 @@ a:hover {
   color: #999;
 }
 
-.post-content .alignwide {
+.post-content > .alignwide {
   width: 1000px;
-  margin-left: 50%;
-  transform: translateX(-50%);
+  margin-left: min(0px, calc(50% - 500px));
   max-width: 1000px;
 }
 
-.post-content .alignfull {
+.post-content > .alignfull {
   width: 100vw;
-  margin-left: 50%;
-  transform: translateX(-50%);
+  margin-left: calc(50% - 50vw);
   max-width: none;
 }
 
-.post-content .alignfull img {
+.post-content > .alignfull img {
   width: 100%;
+}
+
+.post-content .wp-block-cover {
+  position: relative;
+  clear: both;
+  background-size: cover;
+  background-position: center;
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  font-size: 32px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.post-content .wp-block-cover.has-background-dim {
+  background-color: #000;
+}
+
+.post-content .wp-block-cover.has-background-dim:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0.5;
+  background-color: inherit;
+  z-index: 1;
+}
+
+.post-content .wp-block-cover .wp-block-cover-text {
+  z-index: 1;
+}
+
+.post-content .wp-block-cover .wp-block-cover-text a {
+  color: #fff;
+}
+
+.post-content .wp-block-cover.has-parallax {
+  background-attachment: fixed;
+}
+
+.post-content .wp-block-cover .wp-block-cover__video-background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
 }
 `;
 
