@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "lint:license": "deno run --unstable --allow-read https://deno.land/x/license_checker@v3.2.0/main.ts"
+  }
+}

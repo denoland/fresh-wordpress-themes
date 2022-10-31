@@ -1,0 +1,6 @@
+{
+  "**/*.ts": "Copyright 2022 the Deno authors. All rights reserved. MIT license.",
+  "ignore": [
+    "fresh.gen.ts"
+  ]
+}

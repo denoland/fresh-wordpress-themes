@@ -1,3 +1,5 @@
+// Copyright 2022 the Deno authors. All rights reserved. MIT license.
+
 import {
   WP_REST_API_Attachments,
   WP_REST_API_Post,
