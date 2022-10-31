@@ -2,5 +2,5 @@
   "tasks": {
     "lint:license": "deno run --allow-read https://deno.land/x/license_checker@v3.2.1/main.ts"
   },
-  "importMap": "./import_map_testing.json"
+  "importMap": ".github/import_map_testing.json"
 }
