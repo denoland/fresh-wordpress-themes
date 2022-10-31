@@ -12,7 +12,11 @@ export function PostMain({ post }: { post: WpPost }) {
       />
       <hr class="mt-20 mb-20 border-black border-1" />
       <section class="mx-auto max-w-screen-sm text-lg">
-        <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+        <div
+          class="post-content"
+          dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+        />
+        <br class="clear-both" />
         {post.type === "post" && (
           <>
             <PostFooter post={post} />
