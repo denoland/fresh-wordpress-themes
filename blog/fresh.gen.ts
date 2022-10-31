@@ -5,26 +5,28 @@
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/[slug].tsx";
 import * as $1 from "./routes/_404.tsx";
-import * as $2 from "./routes/index.tsx";
-import * as $3 from "./routes/page/[page].tsx";
-import * as $4 from "./routes/posts/[slug].tsx";
-import * as $5 from "./routes/posts/category/[category]/index.tsx";
-import * as $6 from "./routes/posts/category/[category]/page/[page].tsx";
-import * as $7 from "./routes/posts/tag/[tag]/index.tsx";
-import * as $8 from "./routes/posts/tag/[tag]/page/[page].tsx";
+import * as $2 from "./routes/api/comment.ts";
+import * as $3 from "./routes/index.tsx";
+import * as $4 from "./routes/page/[page].tsx";
+import * as $5 from "./routes/posts/[slug].tsx";
+import * as $6 from "./routes/posts/category/[category]/index.tsx";
+import * as $7 from "./routes/posts/category/[category]/page/[page].tsx";
+import * as $8 from "./routes/posts/tag/[tag]/index.tsx";
+import * as $9 from "./routes/posts/tag/[tag]/page/[page].tsx";
 import * as $$0 from "./islands/LeaveReplyForm.tsx";
 
 const manifest = {
   routes: {
     "./routes/[slug].tsx": $0,
     "./routes/_404.tsx": $1,
-    "./routes/index.tsx": $2,
-    "./routes/page/[page].tsx": $3,
-    "./routes/posts/[slug].tsx": $4,
-    "./routes/posts/category/[category]/index.tsx": $5,
-    "./routes/posts/category/[category]/page/[page].tsx": $6,
-    "./routes/posts/tag/[tag]/index.tsx": $7,
-    "./routes/posts/tag/[tag]/page/[page].tsx": $8,
+    "./routes/api/comment.ts": $2,
+    "./routes/index.tsx": $3,
+    "./routes/page/[page].tsx": $4,
+    "./routes/posts/[slug].tsx": $5,
+    "./routes/posts/category/[category]/index.tsx": $6,
+    "./routes/posts/category/[category]/page/[page].tsx": $7,
+    "./routes/posts/tag/[tag]/index.tsx": $8,
+    "./routes/posts/tag/[tag]/page/[page].tsx": $9,
   },
   islands: {
     "./islands/LeaveReplyForm.tsx": $$0,

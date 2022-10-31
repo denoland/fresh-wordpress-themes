@@ -18,24 +18,23 @@ export type WpComment = WP.WP_REST_API_Comment;
 export type WpResponseMetadata = {
   total: number | null;
   totalPages: number | null;
+  status: number;
 };
 
 function toNum(s: string | null): number | null {
   return typeof s === "string" ? +s : s;
 }
 
-function responseMetadataFromHeaders(headers: Headers): WpResponseMetadata {
-  return {
-    total: toNum(headers.get("x-wp-total")),
-    totalPages: toNum(headers.get("x-wp-totalpages")),
-  };
-}
-
 export async function callApi<T = unknown>(
   path: string,
+  options?: RequestInit,
 ): Promise<[T, WpResponseMetadata]> {
-  const resp = await fetch(WP_API + path);
-  return [await resp.json() as T, responseMetadataFromHeaders(resp.headers)];
+  const resp = await fetch(WP_API + path, options);
+  return [await resp.json() as T, {
+    total: toNum(resp.headers.get("x-wp-total")),
+    totalPages: toNum(resp.headers.get("x-wp-totalpages")),
+    status: resp.status,
+  }];
 }
 
 export async function getSiteName() {
@@ -113,4 +112,30 @@ export async function getPageBySlug(slug: string): Promise<WpPost | undefined> {
   const path = `/wp/v2/pages?slug=${slug}&_embed=author,wp:term`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
+}
+
+type PostCommentParams = {
+  post: number;
+  name: string;
+  email: string;
+  content: string;
+};
+
+/** Posts an comment to the given post */
+export async function postComment(params: PostCommentParams) {
+  const path = `/wp/v2/comments`;
+  const body = JSON.stringify({
+    author_name: params.name,
+    author_email: params.email,
+    post: params.post,
+    content: params.content,
+  });
+  const [res, meta] = await callApi<
+    { code: string; message: string; data: { status: number } }
+  >(path, {
+    method: "POST",
+    body,
+    headers: { "content-type": "application/json" },
+  });
+  return [res, meta];
 }

@@ -1,6 +1,6 @@
 // Copyright 2022 the Deno authors. All rights reserved. MIT license.
 
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import Spinner from "components/icons/Spinner.tsx";
 import cx from "utils/cx.ts";
 
@@ -11,14 +11,40 @@ export default function LeaveReplyForm({ post }: { post: number }) {
   const [loading, setLoading] = useState(false);
   const disabled = !name || !email || !reply || loading;
 
+  useEffect(() => {
+    setName(localStorage.name || "");
+    setEmail(localStorage.email || "");
+  }, []);
+
+  const onInputName = (name: string) => {
+    setName(name);
+    localStorage.name = name;
+  };
+
+  const onInputEmail = (email: string) => {
+    setEmail(email);
+    localStorage.email = email;
+  };
+
   const leaveReply = async () => {
     setLoading(true);
     try {
       await new Promise((resolve) => {
         setTimeout(resolve, 1000);
       });
-      alert("TODO(kt3k): not implemented");
+      const resp = await fetch("/api/comment", {
+        method: "POST",
+        body: JSON.stringify({ post, name, email, content: reply }),
+      });
+      const [res, meta] = await resp.json();
+      if (meta.status !== 201) {
+        throw new Error(res.message);
+      }
       location.reload();
+    } catch (e) {
+      const div = document.createElement("div");
+      div.innerHTML = e.message;
+      alert(div.textContent);
     } finally {
       setLoading(false);
     }
@@ -30,7 +56,7 @@ export default function LeaveReplyForm({ post }: { post: number }) {
       <div class="mt-4 flex flex-col gap-2 items-stretch">
         <label>Comment</label>
         <textarea
-          class="border rounded"
+          class="border rounded p-2"
           onInput={(e) => setReply(e.currentTarget.value)}
         >
           {reply}
@@ -38,15 +64,15 @@ export default function LeaveReplyForm({ post }: { post: number }) {
         <label class="mt-2">Name</label>
         <input
           size={20}
-          class="border rounded"
+          class="border rounded p-2"
           value={name}
-          onInput={(e) => setName(e.currentTarget.value)}
+          onInput={(e) => onInputName(e.currentTarget.value)}
         />
         <label class="mt-2">Email</label>
         <input
-          class="border rounded"
+          class="border rounded p-2"
           value={email}
-          onInput={(e) => setEmail(e.currentTarget.value)}
+          onInput={(e) => onInputEmail(e.currentTarget.value)}
         />
         <span class="text-sm">Your email address will not be published.</span>
         <button
