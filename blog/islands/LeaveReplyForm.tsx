@@ -40,6 +40,11 @@ export default function LeaveReplyForm({ post }: { post: number }) {
       if (meta.status !== 201) {
         throw new Error(res.message);
       }
+      if (res[0]?.status === "hold") {
+        throw new Error(
+          "Thank you for your post. We received your comment. It will be published when it's manually approved by the site owner.",
+        );
+      }
       location.reload();
     } catch (e) {
       const div = document.createElement("div");
