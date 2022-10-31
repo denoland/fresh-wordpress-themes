@@ -42,7 +42,7 @@ export default function LeaveReplyForm({ post }: { post: number }) {
       }
       if (res.status === "hold") {
         throw new Error(
-          "Thank you for your post. We received your comment. It will be published when it's manually approved by the site owner.",
+          "Thank you for your reply. We received your comment. It will be published when it's manually approved by the site owner.",
         );
       }
       location.reload();
