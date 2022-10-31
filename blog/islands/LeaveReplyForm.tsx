@@ -40,6 +40,7 @@ export default function LeaveReplyForm({ post }: { post: number }) {
       if (meta.status !== 201) {
         throw new Error(res.message);
       }
+      console.log("res[0]", res[0]);
       if (res[0]?.status === "hold") {
         throw new Error(
           "Thank you for your post. We received your comment. It will be published when it's manually approved by the site owner.",
