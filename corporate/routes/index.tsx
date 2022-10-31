@@ -47,9 +47,12 @@ export default function Home(props: PageProps<HomePageProps>) {
           <h2 class="text-3xl font-serif">
             Infinite macarons everywhere.
           </h2>
-          <button class="bg-red-600 px-12 py-3 uppercase rounded-3xl">
-            Join the Waitlist
-          </button>
+          <a
+            href="./company"
+            class="bg-red-600 px-12 py-3 uppercase rounded-3xl"
+          >
+            About us
+          </a>
         </div>
       </div>
 
