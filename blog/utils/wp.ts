@@ -137,5 +137,6 @@ export async function postComment(params: PostCommentParams) {
     body,
     headers: { "content-type": "application/json" },
   });
+  console.log([res, meta]);
   return [res, meta];
 }
