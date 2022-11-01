@@ -1,10 +1,7 @@
 # Copyright 2022 the Deno authors. All rights reserved. MIT license.
 services:
   db:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
     image: mariadb:10.6.4-focal
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.27
     command: '--default-authentication-plugin=mysql_native_password'
     volumes:
       - db_data:/var/lib/mysql
@@ -18,7 +15,8 @@ services:
       - 3306
       - 33060
   wordpress:
-    dockerfile: ./Dockerfile
+    build:
+      dockerfile: ./Dockerfile
     ports:
       - 80:80
     restart: always
