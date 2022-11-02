@@ -3,7 +3,7 @@
 import * as WP from "https://raw.githubusercontent.com/johnbillion/wp-json-schemas/2117b51650c9a662803e74182edf06af9bd327f7/packages/wp-types/index.ts";
 
 export { WP };
-const WP_API = Deno.env.get("WP_API");
+const WP_API = Deno.env.get("WP_API") || "http://localhost/wp-json";
 
 if (!WP_API) {
   throw Error("WP_API is not set");
