@@ -74,12 +74,21 @@ export default function SinglePage(props: PageProps<SinglePageProps>) {
         <Nav menu={props.data.menu} current={props.params.name} />
       </div>
 
-      <div class="mt-40 max-w-5xl mx-auto md:flex gap-16 odd:flex-row-reverse px-4">
-        <div
-          class={tw(postStyle) + " space-y-8"}
-          dangerouslySetInnerHTML={{ __html: props.data.post.content.rendered }}
-        />
+      <div class="mt-20 max-w-5xl mx-auto px-4">
+        <h1 class="mb-10 text-5xl text-yellow-800">
+          {props.data.post.title.rendered}
+        </h1>
+
+        <div class="md:flex gap-16 odd:flex-row-reverse ">
+          <div
+            class={tw(postStyle) + " space-y-8"}
+            dangerouslySetInnerHTML={{
+              __html: props.data.post.content.rendered,
+            }}
+          />
+        </div>
       </div>
+
       <div>
         <img src="./line.svg" alt="" class="mx-auto mt-10" />
       </div>
