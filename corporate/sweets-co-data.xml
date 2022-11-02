@@ -16,7 +16,7 @@
 <!-- 7. WordPress will then import each of the posts, pages, comments, categories, etc. -->
 <!--    contained in this file into your site. -->
 
-	<!-- generator="WordPress/5.9.5" created="2022-11-02 13:04" -->
+	<!-- generator="WordPress/5.9.5" created="2022-11-02 16:00" -->
 <rss version="2.0"
 	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
@@ -29,7 +29,7 @@
 	<title>Sweets, co.</title>
 	<link>https://corporate.wp.deno.com</link>
 	<description>Just another User&#039;s blog Sites site</description>
-	<pubDate>Wed, 02 Nov 2022 13:04:21 +0000</pubDate>
+	<pubDate>Wed, 02 Nov 2022 16:00:49 +0000</pubDate>
 	<language>en-US</language>
 	<wp:wxr_version>1.2</wp:wxr_version>
 	<wp:base_site_url>https://wp.deno.com/</wp:base_site_url>
@@ -480,7 +480,15 @@ Commenter avatars come from <a href="https://gravatar.com" rel="nofollow ugc">Gr
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:paragraph -->
-<p><strong>Macaron Cake</strong><br><br>From 50 USD</p>
+<p><strong>Macaron Cake</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Macaroons are beautifully and geometrically stacked on top of a cake made of smooth high quality cream.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>From 50 USD</strong></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -498,7 +506,11 @@ Commenter avatars come from <a href="https://gravatar.com" rel="nofollow ugc">Gr
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>From <strong>5 USD</strong></p>
+<p>These macaroons are made with whole wheat flour and have a delightful crunchy texture.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>From 5 USD</strong></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -514,8 +526,8 @@ Commenter avatars come from <a href="https://gravatar.com" rel="nofollow ugc">Gr
 		<wp:post_id>37</wp:post_id>
 		<wp:post_date><![CDATA[2022-09-16 17:15:51]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2022-09-16 17:15:51]]></wp:post_date_gmt>
-		<wp:post_modified><![CDATA[2022-09-24 16:47:49]]></wp:post_modified>
-		<wp:post_modified_gmt><![CDATA[2022-09-24 16:47:49]]></wp:post_modified_gmt>
+		<wp:post_modified><![CDATA[2022-11-02 15:42:15]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2022-11-02 15:42:15]]></wp:post_modified_gmt>
 		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
 		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
 		<wp:post_name><![CDATA[menu]]></wp:post_name>
