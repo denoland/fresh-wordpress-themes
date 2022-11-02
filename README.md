@@ -28,8 +28,8 @@ deno task start # this starts fresh website
 
 The website runs at http://localhost:8000/
 
-The WordPress dashboard runs at http://localhost/wp-admin. You can create,
-modify, and manage the contents there.
+The WordPress dashboard runs at http://localhost/wp-admin (username: `user`,
+password: `password`). You can create, modify, and manage the contents there.
 
 - source: [./blog](./blog)
 - online live demo: https://wp-blog-example.deno.dev/
@@ -55,8 +55,8 @@ deno task start # this starts fresh website
 
 The website runs at http://localhost:8000/
 
-The WordPress dashboard runs at http://localhost/wp-admin. You can create,
-modify, and manage the contents there.
+The WordPress dashboard runs at http://localhost/wp-admin (username: `user`,
+password: `password`). You can create, modify, and manage the contents there.
 
 - source: [./corporate](./corporate)
 - online live demo: https://wp-sweets-co.deno.dev/
