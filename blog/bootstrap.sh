@@ -25,7 +25,13 @@ if [ ! -e index.php ]; then
   chown "$user:$group" wp-config.php
   php mysql_ping.php
   echo >&2 "Installing WordPress"
-  ./wp core install --allow-root --url=localhost --title="Fresh WordPress Example Blog" --admin_user=user --admin_password=password --admin_email=info@example.com
+
+  ./wp --allow-root core install --url=localhost --title="Fresh WordPress Example Blog" --admin_user=user --admin_password=password --admin_email=info@example.com
+  ./wp --allow-root option update permalink_structure '/%postname%'
+  # allow non login users to make comment for demo purpose
+  echo "add_filter( 'rest_allow_anonymous_comments', '__return_true' );" >> wp-content/themes/twentytwentytwo/functions.php
+  ./wp --allow-root plugin install wordpress-importer --activate
+  ./wp --allow-root import theme-unit-test.xml --authors=create
 fi
 
 apache2-foreground

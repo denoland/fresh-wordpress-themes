@@ -7,6 +7,6 @@ while (!mysqli_connect(
   getenv('WORDPRESS_DB_NAME'),
 )) {
   echo "Checking MySQL server\n";
-  sleep(1);
+  sleep(2);
 }
 echo "MySQL server is ready\n";
