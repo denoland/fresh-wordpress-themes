@@ -3,10 +3,10 @@
 import * as WP from "https://raw.githubusercontent.com/johnbillion/wp-json-schemas/2117b51650c9a662803e74182edf06af9bd327f7/packages/wp-types/index.ts";
 
 export { WP };
-const WP_API = Deno.env.get("WP_API") || "http://localhost/wp-json";
-
-if (!WP_API) {
-  throw Error("WP_API is not set");
+const WP_DOMAIN = Deno.env.get("WP_DOMAIN") || "http://localhost";
+const IS_WPCOM = Deno.env.get("IS_WPCOM");
+if (!WP_DOMAIN) {
+  throw Error("WP_DOMAIN must assign");
 }
 
 export type WpPost = WP.WP_REST_API_Post;
@@ -28,7 +28,13 @@ function toNum(s: string | null): number | null {
 export async function callApi<T = unknown>(
   path: string,
   options?: RequestInit,
+  overwriteUrl?: string,
 ): Promise<[T, WpResponseMetadata]> {
+  const WP_API = (overwriteUrl)
+    ? overwriteUrl
+    : (!IS_WPCOM)
+      ? `${WP_DOMAIN}/wp-json/wp/v2`
+      : `https://public-api.wordpress.com/wp/v2/sites/${new URL(WP_DOMAIN).hostname}`
   const resp = await fetch(WP_API + path, options);
   return [await resp.json() as T, {
     total: toNum(resp.headers.get("x-wp-total")),
@@ -38,14 +44,16 @@ export async function callApi<T = unknown>(
 }
 
 export async function getSiteName() {
-  const [{ name }] = await callApi<{ name: string }>("/?fields=name");
+  const [{ name }] = (!IS_WPCOM)
+    ? await callApi<{ name: string }>("/?fields=name", undefined, `${WP_DOMAIN}/wp-json`)
+    : await callApi<{ name: string }>("/?fields=name", undefined, `https://public-api.wordpress.com/rest/v1.1/sites/${new URL(WP_DOMAIN).hostname}`);
   return name;
 }
 
 /** Gets all pages */
 export async function getPages(): Promise<WpPost[]> {
   const [pages] = await callApi<WpPost[]>(
-    "/wp/v2/pages?per_page=100&orderby=menu_order&order=asc",
+    "/pages?per_page=100&orderby=menu_order&order=asc",
   );
   return pages;
 }
@@ -56,7 +64,7 @@ const listQuery = "_embed=wp:featuredmedia";
 export function getPosts(
   page: number,
 ): Promise<[WpPost[], WpResponseMetadata]> {
-  const path = `/wp/v2/posts?page=${page}&${listQuery}`;
+  const path = `/posts?page=${page}&${listQuery}`;
   return callApi<WpPost[]>(path);
 }
 
@@ -66,7 +74,7 @@ export function getPostsByCategoryId(
   categoryId: number,
 ): Promise<[WpPost[], WpResponseMetadata]> {
   const path =
-    `/wp/v2/posts?page=${page}&categories=${categoryId}&${listQuery}`;
+    `/posts?page=${page}&categories=${categoryId}&${listQuery}`;
   return callApi<WpPost[]>(path);
 }
 
@@ -75,7 +83,7 @@ export function getPostsByTagId(
   page: number,
   tagId: number,
 ): Promise<[WpPost[], WpResponseMetadata]> {
-  const path = `/wp/v2/posts?page=${page}&tags=${tagId}&${listQuery}`;
+  const path = `/posts?page=${page}&tags=${tagId}&${listQuery}`;
   return callApi<WpPost[]>(path);
 }
 
@@ -83,33 +91,33 @@ export function getPostsByTagId(
 export async function getCategoryBySlug(
   slug: string,
 ): Promise<WpCategory | undefined> {
-  const [categories] = await callApi<WpTag[]>(`/wp/v2/categories?slug=${slug}`);
+  const [categories] = await callApi<WpTag[]>(`/categories?slug=${slug}`);
   return categories[0];
 }
 
 /** Gets the tag of the given slug */
 export async function getTagBySlug(slug: string): Promise<WpTag | undefined> {
-  const [tags] = await callApi<WpTag[]>(`/wp/v2/tags?slug=${slug}`);
+  const [tags] = await callApi<WpTag[]>(`/tags?slug=${slug}`);
   return tags[0];
 }
 
 /** Gets the sticky post if exists */
 export async function getStickyPost(): Promise<WpPost | undefined> {
-  const path = `/wp/v2/posts?sticky=1&${listQuery}`;
+  const path = `/posts?sticky=1&${listQuery}`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
 
 /** Gets the post by the give slug */
 export async function getPostBySlug(slug: string): Promise<WpPost | undefined> {
-  const path = `/wp/v2/posts?slug=${slug}&_embed=author,wp:term,replies`;
+  const path = `/posts?slug=${slug}&_embed=author,wp:term,replies`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
 
 /** Gets the post by the give slug */
 export async function getPageBySlug(slug: string): Promise<WpPost | undefined> {
-  const path = `/wp/v2/pages?slug=${slug}&_embed=author,wp:term`;
+  const path = `/pages?slug=${slug}&_embed=author,wp:term`;
   const [posts] = await callApi<WpPost[]>(path);
   return posts[0];
 }
@@ -123,7 +131,7 @@ type PostCommentParams = {
 
 /** Posts an comment to the given post */
 export async function postComment(params: PostCommentParams) {
-  const path = `/wp/v2/comments`;
+  const path = `/comments`;
   const body = JSON.stringify({
     author_name: params.name,
     author_email: params.email,
