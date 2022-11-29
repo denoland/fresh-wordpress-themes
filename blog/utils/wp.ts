@@ -33,8 +33,10 @@ export async function callApi<T = unknown>(
   const WP_API = (overwriteUrl)
     ? overwriteUrl
     : (!IS_WPCOM)
-      ? `${WP_DOMAIN}/wp-json/wp/v2`
-      : `https://public-api.wordpress.com/wp/v2/sites/${new URL(WP_DOMAIN).hostname}`
+    ? `${WP_DOMAIN}/wp-json/wp/v2`
+    : `https://public-api.wordpress.com/wp/v2/sites/${
+      new URL(WP_DOMAIN).hostname
+    }`;
   const resp = await fetch(WP_API + path, options);
   return [await resp.json() as T, {
     total: toNum(resp.headers.get("x-wp-total")),
@@ -45,8 +47,18 @@ export async function callApi<T = unknown>(
 
 export async function getSiteName() {
   const [{ name }] = (!IS_WPCOM)
-    ? await callApi<{ name: string }>("/?fields=name", undefined, `${WP_DOMAIN}/wp-json`)
-    : await callApi<{ name: string }>("/?fields=name", undefined, `https://public-api.wordpress.com/rest/v1.1/sites/${new URL(WP_DOMAIN).hostname}`);
+    ? await callApi<{ name: string }>(
+      "/?fields=name",
+      undefined,
+      `${WP_DOMAIN}/wp-json`,
+    )
+    : await callApi<{ name: string }>(
+      "/?fields=name",
+      undefined,
+      `https://public-api.wordpress.com/rest/v1.1/sites/${
+        new URL(WP_DOMAIN).hostname
+      }`,
+    );
   return name;
 }
 
@@ -73,8 +85,7 @@ export function getPostsByCategoryId(
   page: number,
   categoryId: number,
 ): Promise<[WpPost[], WpResponseMetadata]> {
-  const path =
-    `/posts?page=${page}&categories=${categoryId}&${listQuery}`;
+  const path = `/posts?page=${page}&categories=${categoryId}&${listQuery}`;
   return callApi<WpPost[]>(path);
 }
 
