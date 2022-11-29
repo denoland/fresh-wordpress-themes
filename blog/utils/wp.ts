@@ -13,7 +13,7 @@ if (WP_COM_DOMAIN) {
   console.log("Using WP_API=" + WP_API);
 } else {
   console.log(
-    "WP_API or WP_COM_DOMAIN env vars are not set. Using default WP_API (http://localhost/wp-json)",
+    "WP_API and WP_COM_DOMAIN env vars are not set. Using default WP_API (http://localhost/wp-json)",
   );
   WP_API = "http://localhost/wp-json";
 }
