@@ -54,7 +54,7 @@ export async function callApi<T = unknown>(
 }
 
 export async function getSiteName() {
-  const resp = await fetch(SITE_INFO_API!);
+  const resp = await fetch(SITE_INFO_API + "/?fields=name");
   return (await resp.json())?.name || "Untitled";
 }
 
