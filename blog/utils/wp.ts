@@ -3,11 +3,21 @@
 import * as WP from "https://raw.githubusercontent.com/johnbillion/wp-json-schemas/2117b51650c9a662803e74182edf06af9bd327f7/packages/wp-types/index.ts";
 
 export { WP };
-const WP_DOMAIN = Deno.env.get("WP_DOMAIN") || "http://localhost";
-const IS_WPCOM = Deno.env.get("IS_WPCOM");
-if (!WP_DOMAIN) {
-  throw Error("WP_DOMAIN must assign");
+
+let WP_API = Deno.env.get("WP_API");
+const WP_COM_DOMAIN = Deno.env.get("WP_COM_DOMAIN");
+
+if (WP_COM_DOMAIN) {
+  console.log("Using WP_COM_DOMAIN=" + WP_COM_DOMAIN);
+} else if (WP_API) {
+  console.log("Using WP_API=" + WP_API);
+} else {
+  console.log("WP_API or WP_COM_DOMAIN env vars are not set. Using default WP_API (http://localhost/wp-json)")
+  WP_API = "http://localhost/wp-json";
 }
+
+const WP_API_ROOT = WP_COM_DOMAIN ? `https://public-api.wordpress.com/wp/v2/sites/${WP_COM_DOMAIN}` : WP_API + "/wp/v2"
+const SITE_INFO_API = WP_API ? WP_API : `https://public-api.wordpress.com/rest/v1.1/sites/${WP_COM_DOMAIN}`;
 
 export type WpPost = WP.WP_REST_API_Post;
 export type WpCategory = WP.WP_REST_API_Category;
@@ -28,16 +38,8 @@ function toNum(s: string | null): number | null {
 export async function callApi<T = unknown>(
   path: string,
   options?: RequestInit,
-  overwriteUrl?: string,
 ): Promise<[T, WpResponseMetadata]> {
-  const WP_API = (overwriteUrl)
-    ? overwriteUrl
-    : (!IS_WPCOM)
-    ? `${WP_DOMAIN}/wp-json/wp/v2`
-    : `https://public-api.wordpress.com/wp/v2/sites/${
-      new URL(WP_DOMAIN).hostname
-    }`;
-  const resp = await fetch(WP_API + path, options);
+  const resp = await fetch(WP_API_ROOT + path, options);
   return [await resp.json() as T, {
     total: toNum(resp.headers.get("x-wp-total")),
     totalPages: toNum(resp.headers.get("x-wp-totalpages")),
@@ -46,20 +48,8 @@ export async function callApi<T = unknown>(
 }
 
 export async function getSiteName() {
-  const [{ name }] = (!IS_WPCOM)
-    ? await callApi<{ name: string }>(
-      "/?fields=name",
-      undefined,
-      `${WP_DOMAIN}/wp-json`,
-    )
-    : await callApi<{ name: string }>(
-      "/?fields=name",
-      undefined,
-      `https://public-api.wordpress.com/rest/v1.1/sites/${
-        new URL(WP_DOMAIN).hostname
-      }`,
-    );
-  return name;
+  const resp = await fetch(SITE_INFO_API!)
+  return (await resp.json())?.name || "Untitled";
 }
 
 /** Gets all pages */
