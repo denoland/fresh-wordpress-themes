@@ -12,12 +12,18 @@ if (WP_COM_DOMAIN) {
 } else if (WP_API) {
   console.log("Using WP_API=" + WP_API);
 } else {
-  console.log("WP_API or WP_COM_DOMAIN env vars are not set. Using default WP_API (http://localhost/wp-json)")
+  console.log(
+    "WP_API or WP_COM_DOMAIN env vars are not set. Using default WP_API (http://localhost/wp-json)",
+  );
   WP_API = "http://localhost/wp-json";
 }
 
-const WP_API_ROOT = WP_COM_DOMAIN ? `https://public-api.wordpress.com/wp/v2/sites/${WP_COM_DOMAIN}` : WP_API + "/wp/v2"
-const SITE_INFO_API = WP_API ? WP_API : `https://public-api.wordpress.com/rest/v1.1/sites/${WP_COM_DOMAIN}`;
+const WP_API_ROOT = WP_COM_DOMAIN
+  ? `https://public-api.wordpress.com/wp/v2/sites/${WP_COM_DOMAIN}`
+  : WP_API + "/wp/v2";
+const SITE_INFO_API = WP_API
+  ? WP_API
+  : `https://public-api.wordpress.com/rest/v1.1/sites/${WP_COM_DOMAIN}`;
 
 export type WpPost = WP.WP_REST_API_Post;
 export type WpCategory = WP.WP_REST_API_Category;
@@ -48,7 +54,7 @@ export async function callApi<T = unknown>(
 }
 
 export async function getSiteName() {
-  const resp = await fetch(SITE_INFO_API!)
+  const resp = await fetch(SITE_INFO_API!);
   return (await resp.json())?.name || "Untitled";
 }
 
