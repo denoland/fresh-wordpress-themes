@@ -1,7 +1,7 @@
 # Fresh WordPress Themes
 
-This repository includes Fresh WordPress themes. You can start developing
-WordPress-backed Fresh website using these templates.
+This repository includes [Fresh](https://fresh.deno.dev/) WordPress themes. You
+can start developing WordPress-backed Fresh website using these templates.
 
 See also
 [the blog post](https://deno.com/blog/introducing-fresh-wordpress-themes) for
